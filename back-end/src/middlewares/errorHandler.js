@@ -7,12 +7,10 @@ const errors = [
   { status: 401, message: 'Invalid or expired token' },
 ];
 
-class ErrorHandler {
-  static handle(error, _req, res, next) {
-    const errorCode = errors.find((err) => err.message === error.message).status || 500;
-    res.status(errorCode).json({ message: error.message });
-    next();
-  }
-}
+const errorHandler = (error, _req, res, next) => {
+  const errorCode = errors.find((err) => err.message === error.message).status || 500;
+  res.status(errorCode).json({ message: error.message });
+  next();
+};
 
-module.exports = ErrorHandler;
+module.exports = errorHandler;
