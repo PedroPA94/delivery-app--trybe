@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../images/logo.svg';
+import { requestLogin } from '../services/request';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -76,7 +77,7 @@ function Login() {
         <button
           type="button"
           data-testid="common_login__button-register"
-          onClick={ () => navigate('/register') }
+          onClick={ () => navigate('/cadastro') }
         >
           Ainda não tenho conta
         </button>
