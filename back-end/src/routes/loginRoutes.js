@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const loginController = require('../controller/loginController');
 const { validateLoginInputs } = require('../middlewares/credentialsValidations');
+require('express-async-errors');
 
 const routes = Router();
 
