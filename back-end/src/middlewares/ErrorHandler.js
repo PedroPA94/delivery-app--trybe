@@ -4,6 +4,7 @@ const errors = [
   { status: 400, message: 'Username must have at least 12 characters' },
   { status: 400, message: 'Password must have at least 6 characters' },
   { status: 404, message: 'Not found' },
+  { status: 401, message: 'Invalid or expired token' },
 ];
 
 class ErrorHandler {
