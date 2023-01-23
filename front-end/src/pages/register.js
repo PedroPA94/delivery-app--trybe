@@ -1,13 +1,44 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
-  const [localName, setLocalName] = useState('');
-  const [localEmail, setLocalEmail] = useState('');
+  const [localName, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showWarning, setShowWarning] = useState(false);
-  const { setName, setEmail } = useContext(UserContext);
+  const [incorrectLogin, setIncorrectLogin] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
+  const [userRole, setUserRole] = useState('');
 
-  const history = useHistory();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIncorrectLogin(false);
+  }, [email, password]);
+
+  const verifyLoginFormat = () => {
+    const passwordLength = 6;
+    return (/\S+@\S+\.\S+/.test(email)) && (password.length >= passwordLength);
+  };
+
+  const handleLoginButton = async (event) => {
+    event.preventDefault();
+    if (!verifyLoginFormat()) return setIncorrectLogin(false);
+
+    try {
+      const { token } = await requestLogin('/login', { email, password });
+      setToken(token);
+      const { role } = await requestData('/login/validate', { email, password });
+      localStorage.setItem('token', token);
+      localStorage.setItem('role', role);
+      setUserRole(role);
+    } catch (error) {
+      setIncorrectLogin(true);
+      setIsLogged(false);
+    }
+  };
+
+  if (isLogged) return navigate(`/${userRole}`);
+
   return (
     <main>
       <h1>Cadastro</h1>
@@ -19,6 +50,9 @@ function Register() {
             type="text"
             id="nome"
             placeholder="Seu nome"
+            value={ localName }
+            onChange={ ({ target }) => setName(target.value) }
+            required
           />
         </label>
         <label htmlFor="email">
@@ -28,6 +62,9 @@ function Register() {
             type="email"
             id="email"
             placeholder="seu-email@site.com.br"
+            value={ email }
+            onChange={ ({ target }) => setEmail(target.value) }
+            required
           />
         </label>
         <label htmlFor="password">
@@ -37,15 +74,25 @@ function Register() {
             type="password"
             id="password"
             placeholder="********"
+            value={ password }
+            onChange={ ({ target }) => setPassword(target.value) }
+            required
           />
         </label>
         <button
           data-testid="common_register__button-register"
-          type="button"
+          type="submit"
+          onClick={ (event) => handleLoginButton(event) }
+          disable={ verifyLoginFormat() }
         >
           CADASTRAR
         </button>
       </form>
+      {(incorrectLogin) && (
+        <p data-testid="common_register__element-invalid-email">
+          *Login ou senha está com formato incorreto.
+        </p>
+      )}
     </main>
   );
 }
