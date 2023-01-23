@@ -5,7 +5,7 @@ require('express-async-errors');
 
 const routes = Router();
 
-routes.use(validateLoginInputs)
+routes.use(validateLoginInputs);
 routes.post('/login', loginController.postLogin);
 
 module.exports = routes;
