@@ -8,7 +8,7 @@ const errors = [
 
 class ErrorHandler {
   static handle(error, _req, res, next) {
-    const errorCode = errors.find((err) => err.message === error.message)?.status || 500;
+    const errorCode = errors.find((err) => err.message === error.message).status || 500;
     res.status(errorCode).json({ message: error.message });
     next();
   }
