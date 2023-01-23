@@ -10,7 +10,7 @@ const doLogin = async (email, loginPassword) => {
 
   const { password, ...userInfo } = user;
   const token = createToken(userInfo);
-  return token;  
+  return { token, role: user.role };  
 };
 
 module.exports = {

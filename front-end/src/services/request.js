@@ -5,7 +5,7 @@ const instance = axios.create({
 });
 
 export const setToken = (token) => {
-  api.defaults.headers.common.Authorization = token;
+  instance.defaults.headers.common.Authorization = token;
 };
 
 export const requestLogin = async (endpoint, body) => instance.post(endpoint, body);

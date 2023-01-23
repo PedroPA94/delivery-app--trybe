@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../images/logo.svg';
-import { requestLogin } from '../services/request';
+import { requestLogin, setToken } from '../services/request';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLogged, setIsLogged] = useState(false);
+  // const [isLogged, setIsLogged] = useState(false);
   const [userRole, setUserRole] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
@@ -24,19 +24,22 @@ function Login() {
     event.preventDefault();
 
     try {
-      const { token } = await requestLogin('/login', { email, password });
+      const { data: { token, role } } = await requestLogin('/login', { email, password });
+      console.log(token);
       setToken(token);
-      const { role } = await requestData('/login/validate', { email, password });
+      // const { role } = await requestData('/login/validate', { email, password });
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
       setUserRole(role);
+      return navigate(`/${userRole}`);
     } catch (error) {
+      console.log(error);
       setErrorMessage('*Sinto muito, seu login ou senha está incorreto.');
       setIsLogged(false);
     }
   };
 
-  if (isLogged) return navigate(`/${userRole}`);
+  // if (isLogged) return navigate(`/${userRole}`);
 
   return (
     <main>
