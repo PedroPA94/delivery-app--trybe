@@ -1,8 +1,8 @@
 const { Router } = require('express');
-const doLogin = require('../services/loginService');
+const loginController = require('../controller/loginController');
 
 const routes = Router();
 
-routes.post('/login',(req, res) => doLogin(req.body.email, req.body.password));
+routes.post('/login', loginController.postLogin);
 
 module.exports = routes;

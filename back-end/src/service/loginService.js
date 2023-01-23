@@ -1,6 +1,6 @@
-const { UserModel } = require("../database/models/UserModel")
 const md5 = require('md5');
-const { createToken } = require("../middlewares/validateToken");
+const { UserModel } = require('../database/models/UserModel');
+const { createToken } = require('../middlewares/validateToken');
 
 const doLogin = async (email, loginPassword) => {
   const user = await UserModel.findOne({ where: { email } });
@@ -11,6 +11,8 @@ const doLogin = async (email, loginPassword) => {
   const { password, ...userInfo } = user;
   const token = createToken(userInfo);
   return token;  
-}
+};
 
-module.exports = doLogin;
+module.exports = {
+  doLogin,
+};
