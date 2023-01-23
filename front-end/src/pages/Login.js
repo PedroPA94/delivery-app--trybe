@@ -5,24 +5,22 @@ import Logo from '../images/logo.svg';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [incorrectLogin, setIncorrectLogin] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
   const [userRole, setUserRole] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIncorrectLogin(false);
-  }, [email, password]);
-
-  const verifyLoginFormat = () => {
+    const verifyEmail = (/\S+@\S+\.\S+/.test(email));
     const passwordLength = 6;
-    return (/\S+@\S+\.\S+/.test(email)) && (password.length >= passwordLength);
-  };
+    const verifyPassword = (password.length >= passwordLength);
+    if (verifyEmail && verifyPassword) setIsDisabled(false);
+  }, [email, password]);
 
   const handleLoginButton = async (event) => {
     event.preventDefault();
-    if (!verifyLoginFormat()) return setIncorrectLogin(false);
 
     try {
       const { token } = await requestLogin('/login', { email, password });
@@ -32,7 +30,7 @@ function Login() {
       localStorage.setItem('role', role);
       setUserRole(role);
     } catch (error) {
-      setIncorrectLogin(true);
+      setErrorMessage('*Sinto muito, seu login ou senha está incorreto.');
       setIsLogged(false);
     }
   };
@@ -71,20 +69,21 @@ function Login() {
           type="submit"
           data-testid="common_login__button-login"
           onClick={ (event) => handleLoginButton(event) }
+          disabled={ isDisabled }
         >
           LOGIN
         </button>
         <button
           type="button"
           data-testid="common_login__button-register"
-          onClick={ () => navigate('/cadastro') }
+          onClick={ () => navigate('/register') }
         >
           Ainda não tenho conta
         </button>
       </form>
-      {(incorrectLogin) && (
+      {(errorMessage !== '') && (
         <p data-testid="common_login__element-invalid-email">
-          *Sinto muito, seu login ou senha está incorreto.
+          {errorMessage}
         </p>
       )}
     </main>
