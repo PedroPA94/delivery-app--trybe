@@ -8,9 +8,9 @@ const doLogin = async (email, loginPassword) => {
   if (!user) throw new Error('User not found');
   if (md5(loginPassword) !== user.password) throw new Error('Incorrect password');
 
-  const { password, ...userInfo } = user;
+  const { password, id, ...userInfo } = user.dataValues;
   const token = createToken(userInfo);
-  return { token, role: user.role };
+  return { ...userInfo, token };
 };
 
 module.exports = {

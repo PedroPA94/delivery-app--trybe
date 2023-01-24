@@ -28,13 +28,12 @@ function Register() {
     if (!verifyLoginFormat()) return setIncorrectLogin(false);
 
     try {
-      const { data: { token, role } } = await requestPost(
+      const { data } = await requestPost(
         '/register',
         { name: localName, email, password },
       );
-      setToken(token);
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role);
+      setToken(data.token);
+      localStorage.setItem('user', JSON.stringify(data));
       return navigate('/customer/products');
     } catch (error) {
       setIncorrectLogin(true);

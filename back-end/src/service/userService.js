@@ -19,7 +19,7 @@ const create = async (data) => {
     role,
   });
 
-  return { token, role };
+  return { name, email, role, token };
 };
 
 module.exports = {
