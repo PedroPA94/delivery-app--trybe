@@ -7,7 +7,7 @@ function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // const [isLogged, setIsLogged] = useState(false);
-  const [userRole, setUserRole] = useState('');
+  // const [userRole, setUserRole] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -20,22 +20,29 @@ function Login() {
     if (verifyEmail && verifyPassword) setIsDisabled(false);
   }, [email, password]);
 
+  const getUserPage = (role) => {
+    if (role === 'customer') return 'products';
+    if (role === 'seller') return 'orders';
+    if (role === 'admin') return 'manage';
+  };
+
   const handleLoginButton = async (event) => {
     event.preventDefault();
 
     try {
       const { data: { token, role } } = await requestLogin('/login', { email, password });
-      console.log(token);
+      console.log(token, role);
       setToken(token);
       // const { role } = await requestData('/login/validate', { email, password });
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
-      setUserRole(role);
-      return navigate(`/${userRole}`);
+      // setUserRole(role);
+      const page = getUserPage(role);
+      return navigate(`/${role}/${page}`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setErrorMessage('*Sinto muito, seu login ou senha está incorreto.');
-      setIsLogged(false);
+      // setIsLogged(false);
     }
   };
 
