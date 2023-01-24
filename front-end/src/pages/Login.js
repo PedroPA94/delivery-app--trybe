@@ -28,12 +28,11 @@ function Login() {
     event.preventDefault();
 
     try {
-      const { data: { token, role } } = await requestPost('/login', { email, password });
-      setToken(token);
-      localStorage.setItem('token', token);
-      localStorage.setItem('role', role);
-      const page = getUserPage(role);
-      return navigate(`/${role}/${page}`);
+      const { data } = await requestPost('/login', { email, password });
+      setToken(data.token);
+      localStorage.setItem('user', JSON.stringify(data));
+      const page = getUserPage(data.role);
+      return navigate(`/${data.role}/${page}`);
     } catch (error) {
       setErrorMessage('*Sinto muito, seu login ou senha está incorreto.');
     }
