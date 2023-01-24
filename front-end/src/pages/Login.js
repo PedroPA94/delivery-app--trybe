@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../images/logo.svg';
-import { requestLogin, setToken } from '../services/request';
+import { requestPost, setToken } from '../services/request';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  // const [isLogged, setIsLogged] = useState(false);
-  // const [userRole, setUserRole] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -30,23 +28,16 @@ function Login() {
     event.preventDefault();
 
     try {
-      const { data: { token, role } } = await requestLogin('/login', { email, password });
-      console.log(token, role);
+      const { data: { token, role } } = await requestPost('/login', { email, password });
       setToken(token);
-      // const { role } = await requestData('/login/validate', { email, password });
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
-      // setUserRole(role);
       const page = getUserPage(role);
       return navigate(`/${role}/${page}`);
     } catch (error) {
-      console.error(error);
       setErrorMessage('*Sinto muito, seu login ou senha está incorreto.');
-      // setIsLogged(false);
     }
   };
-
-  // if (isLogged) return navigate(`/${userRole}`);
 
   return (
     <main>
@@ -87,7 +78,7 @@ function Login() {
         <button
           type="button"
           data-testid="common_login__button-register"
-          onClick={ () => navigate('/cadastro') }
+          onClick={ () => navigate('/register') }
         >
           Ainda não tenho conta
         </button>

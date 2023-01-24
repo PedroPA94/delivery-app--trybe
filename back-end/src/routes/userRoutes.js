@@ -1,15 +1,15 @@
-const { Router } = require("express");
-const userController = require("../controller/userController");
+const { Router } = require('express');
+const userController = require('../controllers/userController');
 
-require("express-async-errors");
+require('express-async-errors');
 
 const {
   validateRegisterInputs,
-} = require("../middlewares/credentialsValidations");
+} = require('../middlewares/credentialsValidations');
 
 const routes = Router();
 
 routes.use(validateRegisterInputs);
-routes.post("/", userController.createUser);
+routes.post('/', userController.createUser);
 
 module.exports = routes;

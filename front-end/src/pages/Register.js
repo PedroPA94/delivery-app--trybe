@@ -1,43 +1,45 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { requestPost, setToken } from '../services/request';
 
 function Register() {
   const [localName, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [incorrectLogin, setIncorrectLogin] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
-  const [userRole, setUserRole] = useState('');
 
   const navigate = useNavigate();
 
+  const verifyLoginFormat = () => {
+    const localNameLength = localName.length >= Number('12');
+    const passwordLength = 6;
+    return (/\S+@\S+\.\S+/.test(email))
+    && (password.length >= passwordLength)
+    && (localNameLength);
+  };
+
   useEffect(() => {
     setIncorrectLogin(false);
-  }, [email, password]);
-
-  const verifyLoginFormat = () => {
-    const passwordLength = 6;
-    return (/\S+@\S+\.\S+/.test(email)) && (password.length >= passwordLength);
-  };
+    verifyLoginFormat();
+  }, [email, password, localName]);
 
   const handleLoginButton = async (event) => {
     event.preventDefault();
     if (!verifyLoginFormat()) return setIncorrectLogin(false);
 
     try {
-      const { token } = await requestLogin('/login', { email, password });
+      const { data: { token, role } } = await requestPost(
+        '/register',
+        { name: localName, email, password },
+      );
       setToken(token);
-      const { role } = await requestData('/login/validate', { email, password });
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
-      setUserRole(role);
+      return navigate('/customer/products');
     } catch (error) {
       setIncorrectLogin(true);
-      setIsLogged(false);
     }
   };
-
-  if (isLogged) return navigate(`/${userRole}`);
 
   return (
     <main>
@@ -46,7 +48,7 @@ function Register() {
         <label htmlFor="nome">
           Nome
           <input
-            data-testid="common_register_input-name"
+            data-testid="common_register__input-name"
             type="text"
             id="nome"
             placeholder="Seu nome"
@@ -58,7 +60,7 @@ function Register() {
         <label htmlFor="email">
           Email
           <input
-            data-testid="common_login__input-email"
+            data-testid="common_register__input-email"
             type="email"
             id="email"
             placeholder="seu-email@site.com.br"
@@ -70,7 +72,7 @@ function Register() {
         <label htmlFor="password">
           Senha
           <input
-            data-testid="common_login__input-email"
+            data-testid="common_register__input-password"
             type="password"
             id="password"
             placeholder="********"
@@ -83,13 +85,13 @@ function Register() {
           data-testid="common_register__button-register"
           type="submit"
           onClick={ (event) => handleLoginButton(event) }
-          disable={ verifyLoginFormat() }
+          disabled={ !verifyLoginFormat() }
         >
           CADASTRAR
         </button>
       </form>
       {(incorrectLogin) && (
-        <p data-testid="common_register__element-invalid-email">
+        <p data-testid="common_register__element-invalid_register">
           *Login ou senha está com formato incorreto.
         </p>
       )}

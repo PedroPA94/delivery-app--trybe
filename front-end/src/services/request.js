@@ -8,6 +8,6 @@ export const setToken = (token) => {
   instance.defaults.headers.common.Authorization = token;
 };
 
-export const requestLogin = async (endpoint, body) => instance.post(endpoint, body);
+export const requestPost = async (endpoint, body) => instance.post(endpoint, body);
 
 export default instance;
