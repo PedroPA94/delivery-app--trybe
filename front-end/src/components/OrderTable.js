@@ -1,8 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext/AppContext';
+import useLocalStorage from '../hooks/useLocalStorage';
 
-function OrderTable(userType, page) {
+function OrderTable(page) {
   const { cart, setCart } = useContext(AppContext);
+  const [user] = useLocalStorage('user');
+  const { role: userType } = user;
 
   const [totalPrice, setTotalPrice] = useState(0);
 
