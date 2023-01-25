@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useLocalStorage from '../hooks/useLocalStorage';
 import Logo from '../images/logo.svg';
 import { requestPost, setToken } from '../services/request';
 
@@ -8,6 +9,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const [, setUser] = useLocalStorage('user');
 
   const navigate = useNavigate();
 
@@ -30,7 +32,7 @@ function Login() {
     try {
       const { data } = await requestPost('/login', { email, password });
       setToken(data.token);
-      localStorage.setItem('user', JSON.stringify(data));
+      setUser(data);
       const page = getUserPage(data.role);
       return navigate(`/${data.role}/${page}`);
     } catch (error) {
