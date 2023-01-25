@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 
-function ProductsCard(products) {
+function ProductCard(product) {
   const {
     id,
     name,
     price,
     url_image: urlImage,
-  } = products;
+  } = product;
 
   const [quantity, setQuantity] = useState(0);
+
+  // Fazer lógica no context
   const handleIncrement = () => {
     setQuantity(quantity + 1);
   };
-
+  // Fazer lógica no context
   const handleDecrement = () => {
     if (quantity <= 0) { setQuantity(quantity - 1); }
   };
@@ -59,4 +61,4 @@ function ProductsCard(products) {
   );
 }
 
-export default ProductsCard;
+export default ProductCard;
