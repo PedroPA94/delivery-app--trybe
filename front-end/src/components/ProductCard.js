@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import AppContext from '../AppContext/AppContext';
 
 function ProductCard({ product }) {
   const {
@@ -10,15 +11,9 @@ function ProductCard({ product }) {
   } = product;
 
   const [quantity, setQuantity] = useState(0);
+  const { changeQuantity } = useContext(AppContext);
 
-  // Fazer lógica no context
-  const handleIncrement = () => {
-    setQuantity(quantity + 1);
-  };
-  // Fazer lógica no context
-  const handleDecrement = () => {
-    if (quantity > 0) { setQuantity(quantity - 1); }
-  };
+  useEffect(() => changeQuantity({ ...product, quantity }), [quantity]);
 
   return (
     <div>
@@ -42,19 +37,21 @@ function ProductCard({ product }) {
       <button
         type="button"
         id="decrease"
-        onClick={ () => handleDecrement() }
+        onClick={ () => { if (quantity > 0) setQuantity(quantity - 1); } }
         data-testid={ `customer_products__button-card-rm-item-${id}` }
       >
         -
       </button>
-      <div
+      <input
+        type="number"
+        // min="0"
         data-testid={ `customer_products__input-card-quantity-${id}` }
-      >
-        { quantity }
-      </div>
+        value={ quantity }
+        onChange={ ({ target }) => setQuantity(Number(target.value)) }
+      />
       <button
         type="button"
-        onClick={ () => handleIncrement() }
+        onClick={ () => setQuantity(quantity + 1) }
         data-testid={ `customer_products__button-card-add-item-${id}` }
       >
         +
