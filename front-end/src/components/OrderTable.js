@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 
-function OrderTable(page) {
+function OrderTable({ page }) {
   const { cart, setCart } = useContext(AppContext);
   const [user] = useLocalStorage('user');
   const { role: userType } = user;
@@ -99,5 +100,9 @@ function OrderTable(page) {
     </div>
   );
 }
+
+OrderTable.propTypes = {
+  page: PropTypes.string.isRequired,
+};
 
 export default OrderTable;
