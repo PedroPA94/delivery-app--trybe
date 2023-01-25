@@ -36,7 +36,7 @@ function OrderTable(userType, page) {
         </thead>
         <tbody>
           { cart.map((item, index) => (
-            <tr key={ index }>
+            <tr key={ item.id }>
               <td
                 data-testid={
                   `${userType}_${page}__element-order-table-item-number-${index}`
