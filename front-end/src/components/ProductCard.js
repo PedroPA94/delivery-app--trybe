@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-function ProductCard(product) {
+function ProductCard({ product }) {
   const {
     id,
     name,
@@ -60,5 +61,14 @@ function ProductCard(product) {
     </div>
   );
 }
+
+ProductCard.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    url_image: PropTypes.string,
+  }).isRequired,
+};
 
 export default ProductCard;
