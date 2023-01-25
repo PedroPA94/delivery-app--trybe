@@ -16,7 +16,7 @@ function Navbar() {
       <div data-testid="customer_products__element-navbar-link-products">
         <button
           type="button"
-          onClick={ () => navigate('/products') }
+          onClick={ () => navigate(`/${user.role}/products`) }
         >
           Produtos
         </button>
@@ -24,7 +24,7 @@ function Navbar() {
       <div data-testid="customer_products__element-navbar-link-orders">
         <button
           type="button"
-          onClick={ () => navigate('/orders') }
+          onClick={ () => navigate(`/${user.role}/orders`) }
         >
           Pedidos
         </button>
