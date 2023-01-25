@@ -25,17 +25,19 @@ function ProductCard({ product }) {
       <div
         data-testid={ `customer_products__element-card-price-${id}` }
       >
-        { price }
+        { price.replace('.', ',') }
       </div>
       <div
         data-testid={ `customer_products__element-card-title-${id}` }
       >
         { name }
       </div>
-      <div
-        data-testid={ `customer_products__img-card-bg-image-${id}` }
-      >
-        <img src={ urlImage } alt={ name } />
+      <div>
+        <img
+          src={ urlImage }
+          alt={ name }
+          data-testid={ `customer_products__img-card-bg-image-${id}` }
+        />
       </div>
       <button
         type="button"
@@ -66,7 +68,7 @@ ProductCard.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
-    price: PropTypes.number,
+    price: PropTypes.string,
     url_image: PropTypes.string,
   }).isRequired,
 };

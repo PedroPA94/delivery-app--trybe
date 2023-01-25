@@ -1,6 +1,6 @@
 const md5 = require('md5');
 const { User } = require('../database/models');
-const { createToken } = require('../middlewares/validateToken');
+const { createToken } = require('../utils/createToken');
 
 const doLogin = async (email, loginPassword) => {
   const user = await User.findOne({ where: { email } });

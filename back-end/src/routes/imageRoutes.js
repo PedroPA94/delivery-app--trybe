@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const imageController = require('../controllers/imageController')
+const imageController = require('../controllers/imageController');
 require('express-async-errors');
 
 const routes = Router();
