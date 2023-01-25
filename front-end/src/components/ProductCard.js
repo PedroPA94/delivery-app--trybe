@@ -17,7 +17,7 @@ function ProductCard({ product }) {
   };
   // Fazer lógica no context
   const handleDecrement = () => {
-    if (quantity <= 0) { setQuantity(quantity - 1); }
+    if (quantity > 0) { setQuantity(quantity - 1); }
   };
 
   return (
@@ -35,7 +35,7 @@ function ProductCard({ product }) {
       <div
         data-testid={ `customer_products__img-card-bg-image-${id}` }
       >
-        { urlImage }
+        <img src={ urlImage } alt={ name } />
       </div>
       <button
         type="button"
