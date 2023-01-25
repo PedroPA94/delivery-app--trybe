@@ -7,13 +7,14 @@ function AddressForm() {
 
   const [address, setAddress] = useState('');
   const [addressNumber, setAddressNumber] = useState('');
-  const [selectedSeller, setSelectedSeller] = useState('');
   const [sellers, setSellers] = useState([]);
+  const [selectedSeller, setSelectedSeller] = useState(0);
   const [orderNumber, setOrderNumber] = useState('');
 
   const fetchSellers = async () => {
-    const sellersArray = await requestSimpleGet('/seller');
-    setSellers(sellersArray);
+    const { data } = await requestSimpleGet('/seller');
+    setSelectedSeller(data[0].id);
+    return setSellers(data);
   };
 
   useEffect(() => {
@@ -46,8 +47,8 @@ function AddressForm() {
           onChange={ ({ target }) => setSelectedSeller(target.value) }
           required
         >
-          {sellers.map((item) => (
-            <option key={ item.id } value={ item.name }>{item.name}</option>
+          {(sellers.length > 0) && sellers.map((item) => (
+            <option key={ item.id } value={ item.id }>{item.name}</option>
           ))}
         </select>
       </label>
