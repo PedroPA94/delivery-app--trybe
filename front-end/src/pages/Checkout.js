@@ -1,4 +1,4 @@
-import AddressForm from '../components/CheckoutForm';
+import CheckoutForm from '../components/CheckoutForm';
 import Navbar from '../components/Navbar';
 import OrderTable from '../components/OrderTable';
 
@@ -14,7 +14,7 @@ function Checkout() {
         <section>
           <h2>Detalhes e Endereço para Entrega</h2>
           <div>
-            <AddressForm />
+            <CheckoutForm />
           </div>
         </section>
       </main>

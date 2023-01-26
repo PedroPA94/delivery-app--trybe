@@ -4,17 +4,14 @@ import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 function OrderTable({ page }) {
-  const { cart, setCart } = useContext(AppContext);
+  const { cart, setCart, getTotalValue } = useContext(AppContext);
   const [user] = useLocalStorage('user');
   const { role: userType } = user;
 
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const value = cart.reduce((acc, item) => {
-      acc += item.subTotal;
-      return acc;
-    }, 0);
+    const value = getTotalValue();
     setTotalPrice(value);
   }, [cart]);
 

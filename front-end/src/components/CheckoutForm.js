@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { requestPost, requestSimpleGet } from '../services/request';
+import { requestGet, requestPost } from '../services/request';
 
-function AddressForm() {
-  const { cart } = useContext(AppContext);
+function CheckoutForm() {
+  const { cart, getTotalValue } = useContext(AppContext);
 
   const [user] = useLocalStorage('user');
   const { email: userEmail } = user;
@@ -18,7 +18,7 @@ function AddressForm() {
   const navigate = useNavigate();
 
   const fetchSellers = async () => {
-    const { data } = await requestSimpleGet('/seller');
+    const { data } = await requestGet('/seller');
     setSellerId(data[0].id);
     return setSellers(data);
   };
@@ -29,6 +29,8 @@ function AddressForm() {
 
   const handleSubmitButton = async (event) => {
     event.preventDefault();
+
+    const totalPrice = getTotalValue();
 
     try {
       const { data } = await requestPost(
@@ -91,4 +93,4 @@ function AddressForm() {
   );
 }
 
-export default AddressForm;
+export default CheckoutForm;

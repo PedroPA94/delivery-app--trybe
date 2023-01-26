@@ -1,6 +1,6 @@
 const md5 = require('md5');
 const { User } = require('../database/models');
-const { createToken } = require('../middlewares/validateToken');
+const { createToken } = require('../utils/createToken');
 
 const create = async (data) => {
   const { name, email, password, role = 'customer' } = data;
