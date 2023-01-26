@@ -40,8 +40,7 @@ function AddressForm() {
           deliveryNumber,
           userEmail },
       );
-      console.log(data);
-      return navigate(`/customer/orders/${data}`);
+      return navigate(`/customer/orders/${data.saleId}`);
     } catch (error) {
       console.log(error);
     }
