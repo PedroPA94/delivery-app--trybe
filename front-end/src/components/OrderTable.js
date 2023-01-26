@@ -64,7 +64,7 @@ function OrderTable({ page }) {
                   `${userType}_${page}__element-order-table-unit-price-${index}`
                 }
               >
-                {item.unityPrice}
+                {item.price}
               </td>
               <td
                 data-testid={
