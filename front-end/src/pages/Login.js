@@ -23,7 +23,6 @@ function Login() {
   const getUserPage = (role) => {
     if (role === 'customer') return 'products';
     if (role === 'seller') return 'orders';
-    if (role === 'admin') return 'manage';
   };
 
   const handleLoginButton = async (event) => {
@@ -33,8 +32,9 @@ function Login() {
       const { data } = await requestPost('/login', { email, password });
       setToken(data.token);
       setUser(data);
+      if (data.role === 'administrator') return navigate('/admin/manage');
       const page = getUserPage(data.role);
-      return navigate(`/${data.role}/${page}`);
+      navigate(`/${data.role}/${page}`);
     } catch (error) {
       setErrorMessage('*Sinto muito, seu login ou senha está incorreto.');
     }
