@@ -6,8 +6,6 @@ import ProductCard from '../components/ProductCard';
 import { requestGet } from '../services/request';
 
 function Products() {
-  // renderizar valor carrinho
-
   const [products, setProducts] = useState([]);
   const { getTotalValue } = useContext(AppContext);
   const navigate = useNavigate();
@@ -37,13 +35,14 @@ function Products() {
         data-testid="customer_products__button-cart"
         type="button"
         onClick={ () => navigate('/customer/checkout') }
+        disabled={ getTotalValue() === 0 }
       >
         Ver carrinho: R$
         {' '}
         <span
           data-testid="customer_products__checkout-bottom-value"
         >
-          {getTotalValue()}
+          { getTotalValue().toLocaleString('pt-BR', { minimumFractionDigits: 2 }) }
 
         </span>
       </button>
