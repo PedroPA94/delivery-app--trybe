@@ -10,4 +10,6 @@ export const setToken = (token) => {
 
 export const requestPost = async (endpoint, body) => instance.post(endpoint, body);
 
+export const requestGet = async (endpoint) => instance.get(endpoint);
+
 export default instance;

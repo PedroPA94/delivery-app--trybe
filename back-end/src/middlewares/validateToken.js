@@ -1,20 +1,19 @@
 const jwt = require('jsonwebtoken');
+const path = require('path');
 
-const createToken = (data) => {
-  const token = jwt.sign({ data }, 'secret_key', {
-    expiresIn: '1d',
-    algorithm: 'HS256',
-  });
-  return token;
-};
+const keyFilePath = path.resolve('jwt.evaluation.key');
+const jwtKey = require('fs')
+  .readFileSync(keyFilePath, { encoding: 'utf-8' });
 
-const validateToken = (token) => {
-    const { data } = jwt.verify(token);
-    if (!data) throw new Error('Expired or invalid token');
-    return data;
+const validateToken = (req, _res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) throw new Error('Token not found');
+  const { data } = jwt.verify(token, jwtKey);
+  if (!data) throw new Error('Expired or invalid token');
+  next();
 };
 
 module.exports = {
-  createToken,
   validateToken,
 };
