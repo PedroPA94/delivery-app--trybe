@@ -1,11 +1,17 @@
 const md5 = require('md5');
+const { Op } = require('sequelize');
 const { User } = require('../database/models');
 const { createToken } = require('../utils/createToken');
 
 const create = async (data) => {
   const { name, email, password, role = 'customer' } = data;
 
-  const user = await User.findOne({ where: { email } });
+  const user = await User.findOne({ where: { 
+    [Op.or]: [
+      { email },
+      { name },
+    ],
+  } });
 
   if (user) throw new Error('User already exist');
 

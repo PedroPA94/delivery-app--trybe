@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { requestPost } from '../services/request';
 
 const MIN_NAME_LENGTH = 12;
 const MIN_PASSWORD_LENGTH = 6;
@@ -10,15 +11,16 @@ const NEW_USER_MODEL = {
 };
 
 function NewUserForm() {
-  const [newUSer, setNewUser] = useState(NEW_USER_MODEL);
+  const [newUser, setNewUser] = useState(NEW_USER_MODEL);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const handleChange = (target) => {
     const { name, value } = target;
-    setNewUser({ ...newUSer, [name]: value });
+    setNewUser({ ...newUser, [name]: value });
   };
 
   const isSubmitEnabled = () => {
-    const { name, email, password } = newUSer;
+    const { name, email, password } = newUser;
     const validName = name.length >= MIN_NAME_LENGTH;
     const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
     const validEmail = emailRegex.test(email);
@@ -26,9 +28,15 @@ function NewUserForm() {
     return validName && validEmail && validPassword;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // submit para o back
+    try {
+      await requestPost('/register/admin', newUser);
+    } catch (error) {
+      console.error(error);
+      setShowErrorMessage(true);
+      return;
+    }
     setNewUser(NEW_USER_MODEL);
   };
 
@@ -43,7 +51,7 @@ function NewUserForm() {
             name="name"
             placeholder="Nome"
             data-testid="admin_manage__input-name"
-            value={ newUSer.name }
+            value={ newUser.name }
             onChange={ ({ target }) => handleChange(target) }
           />
         </label>
@@ -54,7 +62,7 @@ function NewUserForm() {
             name="email"
             placeholder="seu-email@site.com.br"
             data-testid="admin_manage__input-email"
-            value={ newUSer.email }
+            value={ newUser.email }
             onChange={ ({ target }) => handleChange(target) }
           />
         </label>
@@ -65,7 +73,7 @@ function NewUserForm() {
             name="password"
             placeholder="******"
             data-testid="admin_manage__input-password"
-            value={ newUSer.password }
+            value={ newUser.password }
             onChange={ ({ target }) => handleChange(target) }
           />
         </label>
@@ -75,7 +83,7 @@ function NewUserForm() {
             name="role"
             default="seller"
             data-testid="admin_manage__select-role"
-            value={ newUSer.role }
+            value={ newUser.role }
             onChange={ ({ target }) => handleChange(target) }
           >
             <option value="seller">Vendedor</option>
@@ -92,6 +100,12 @@ function NewUserForm() {
           CADASTRAR
         </button>
       </form>
+      <p
+        data-testid="admin_manage__element-invalid-register"
+        hidden={ !showErrorMessage }
+      >
+        *Usuário já existe
+      </p>
     </>
   );
 }

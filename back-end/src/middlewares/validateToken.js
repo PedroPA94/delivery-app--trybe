@@ -11,6 +11,7 @@ const validateToken = (req, _res, next) => {
   if (!token) throw new Error('Token not found');
   const { data } = jwt.verify(token, jwtKey);
   if (!data) throw new Error('Expired or invalid token');
+  req.body.user = data;
   next();
 };
 
