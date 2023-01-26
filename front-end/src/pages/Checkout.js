@@ -1,4 +1,4 @@
-import AddressForm from '../components/AddressForm';
+import AddressForm from '../components/CheckoutForm';
 import Navbar from '../components/Navbar';
 import OrderTable from '../components/OrderTable';
 

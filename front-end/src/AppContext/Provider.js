@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import { useMemo, useState } from 'react';
 import AppContext from './AppContext';
-import mock from './mock';
 
 function Provider({ children }) {
-  const [cart, setCart] = useState(mock);
+  const [cart, setCart] = useState([]);
 
   const providerValue = useMemo(() => ({
     cart,

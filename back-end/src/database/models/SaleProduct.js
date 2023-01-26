@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
-  const SaleProduct = sequelize.define('SaleProduct', {
-    sale_id: {
+  const SalesProduct = sequelize.define('SalesProduct', {
+    saleId: {
       allowNull: false,
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
-    product_id: {
+    productId: {
       allowNull: false,
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  SaleProduct.associate = (models) => {
-    SaleProduct.belongsTo(models.Sale, { foreignKey: 'id', as: 'sale'});
-    SaleProduct.belongsTo(models.Product, { foreignKey: 'id', as: 'product'});
+  SalesProduct.associate = (models) => {
+    SalesProduct.belongsTo(models.Sale, { foreignKey: 'id', as: 'sale'});
+    SalesProduct.belongsTo(models.Product, { foreignKey: 'id', as: 'product'});
   }
 
-  return SaleProduct;
+  return SalesProduct;
 };

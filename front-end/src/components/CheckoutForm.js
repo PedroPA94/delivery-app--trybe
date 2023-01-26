@@ -1,19 +1,25 @@
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
-import { requestSimpleGet } from '../services/request';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { requestPost, requestSimpleGet } from '../services/request';
 
 function AddressForm() {
   const { cart } = useContext(AppContext);
 
-  const [address, setAddress] = useState('');
-  const [addressNumber, setAddressNumber] = useState('');
+  const [user] = useLocalStorage('user');
+  const { email: userEmail } = user;
+
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [deliveryNumber, setDeliveryNumber] = useState('');
   const [sellers, setSellers] = useState([]);
-  const [selectedSeller, setSelectedSeller] = useState(0);
-  const [orderNumber, setOrderNumber] = useState('');
+  const [sellerId, setSellerId] = useState(0);
+
+  const navigate = useNavigate();
 
   const fetchSellers = async () => {
     const { data } = await requestSimpleGet('/seller');
-    setSelectedSeller(data[0].id);
+    setSellerId(data[0].id);
     return setSellers(data);
   };
 
@@ -26,11 +32,16 @@ function AddressForm() {
 
     try {
       const { data } = await requestPost(
-        '/order',
-        { cart, selectedSeller, address, addressNumber },
+        '/sale',
+        { cart,
+          totalPrice,
+          sellerId,
+          deliveryAddress,
+          deliveryNumber,
+          userEmail },
       );
-      setOrderNumber(data.id);
-      return navigate(`/customer/orders/${orderNumber}`);
+      console.log(data);
+      return navigate(`/customer/orders/${data}`);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +55,7 @@ function AddressForm() {
           type="text"
           id="select-seller"
           data-testid="customer_checkout__select-seller"
-          onChange={ ({ target }) => setSelectedSeller(target.value) }
+          onChange={ ({ target }) => setSellerId(target.value) }
           required
         >
           {(sellers.length > 0) && sellers.map((item) => (
@@ -58,8 +69,8 @@ function AddressForm() {
           type="text"
           id="address"
           data-testid="customer_checkout__input-address"
-          value={ address }
-          onChange={ ({ target }) => setAddress(target.value) }
+          value={ deliveryAddress }
+          onChange={ ({ target }) => setDeliveryAddress(target.value) }
           required
         />
       </label>
@@ -69,8 +80,8 @@ function AddressForm() {
           type="text"
           id="address-number"
           data-testid="customer_checkout__input-address-number"
-          value={ addressNumber }
-          onChange={ ({ target }) => setAddressNumber(target.value) }
+          value={ deliveryNumber }
+          onChange={ ({ target }) => setDeliveryNumber(target.value) }
           required
         />
       </label>

@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
   timestamps: false,
 });
 Product.associate = (models) => {
-  Product.hasMany(models.SaleProduct, { foreignKey: 'productId', as: 'product'});
+  Product.hasMany(models.SalesProduct, { foreignKey: 'productId', as: 'product'});
 }
 
 return Product;
