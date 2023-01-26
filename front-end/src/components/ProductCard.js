@@ -29,9 +29,9 @@ function ProductCard({ product }) {
       </div>
       <div>
         <img
+          data-testid={ `customer_products__img-card-bg-image-${id}` }
           src={ urlImage }
           alt={ name }
-          data-testid={ `customer_products__img-card-bg-image-${id}` }
         />
       </div>
       <button
@@ -44,7 +44,7 @@ function ProductCard({ product }) {
       </button>
       <input
         type="number"
-        // min="0"
+        min="0"
         data-testid={ `customer_products__input-card-quantity-${id}` }
         value={ quantity }
         onChange={ ({ target }) => setQuantity(Number(target.value)) }
