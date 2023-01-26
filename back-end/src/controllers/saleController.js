@@ -1,4 +1,4 @@
-const saleService = require('../service/saleService');
+const saleService = require('../services/saleService');
 
 const createSale = async (req, res) => {
   const saleId = await saleService.createSale(req.body);

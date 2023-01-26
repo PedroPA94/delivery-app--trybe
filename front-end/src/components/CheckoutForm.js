@@ -86,7 +86,11 @@ function CheckoutForm() {
           required
         />
       </label>
-      <button type="submit" onClick={ (event) => handleSubmitButton(event) }>
+      <button
+        type="submit"
+        data-testid="customer_checkout__button-submit-order"
+        onClick={ (event) => handleSubmitButton(event) }
+      >
         FINALIZAR PEDIDO
       </button>
     </form>
