@@ -1,46 +1,52 @@
+const moment = require("moment");
+
 module.exports = (sequelize, DataTypes) => {
   const Sale = sequelize.define('Sale', {
-     id: {
+    id: {
     primaryKey: true,
     autoIncrement: true,
     allowNull: false,
     type: DataTypes.INTEGER 
-  },
-  user_id: {
-    allowNull: false,
-    type: DataTypes.INTEGER, 
-  },
-  seller_id: {
-    allowNull: false,
-    type: DataTypes.INTEGER,
-  },
-  total_price: {
-    allowNull: false,
-    type: DataTypes.DECIMAL
-  },
-  delivery_address: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  delivery_number: {
-    allowNull: false,
-    type: DataTypes.STRING
-  },
-  sale_date: {
-    allowNull: false,
-    type: DataTypes.DATE,
-  },
-  status: {
-    allowNull: false,
-    type: DataTypes.STRING
-  }
-}, {
-  underscored: true,
-  modelName: 'sales',
-  timestamps: false,
-});
+    },
+    userId: {
+      allowNull: false,
+      type: DataTypes.INTEGER, 
+    },
+    sellerId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+    },
+    totalPrice: {
+      allowNull: false,
+      type: DataTypes.DECIMAL(10, 2)
+    },
+    deliveryAddress: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    deliveryNumber: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    saleDate: {
+      allowNull: false,
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      get: function() {
+          return moment.utc(this.getDataValue('sale_date')).format('YYYY-MM-DD HH:mm:ss Z');
+      },
+    },
+    status: {
+      allowNull: false,
+      type: DataTypes.STRING
+    }
+  }, {
+    underscored: true,
+    modelName: 'sales',
+    timestamps: false,
+  });
 Sale.associate = (models) => {
-  Sale.hasMany(models.SaleProduct, { foreignKey: 'saleId', as: 'sale'});
+  Sale.hasMany(models.SalesProduct, { foreignKey: 'saleId', as: 'sale'});
 }
 
 return Sale;

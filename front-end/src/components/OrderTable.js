@@ -1,25 +1,22 @@
+import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 
-function OrderTable(page) {
-  const { cart, setCart } = useContext(AppContext);
+function OrderTable({ page }) {
+  const { cart, getTotalValue, changeQuantity } = useContext(AppContext);
   const [user] = useLocalStorage('user');
   const { role: userType } = user;
 
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    const value = cart.reduce((acc, item) => {
-      acc += item.subTotal;
-      return acc;
-    }, 0);
+    const value = getTotalValue();
     setTotalPrice(value);
   }, [cart]);
 
-  const handleRemoveProduct = (productIndex) => {
-    const newCart = cart.filter((_e, index) => productIndex !== index);
-    setCart(newCart);
+  const handleRemoveProduct = (product) => {
+    changeQuantity({ ...product, quantity: 0 });
   };
 
   return (
@@ -66,22 +63,25 @@ function OrderTable(page) {
                   `${userType}_${page}__element-order-table-unit-price-${index}`
                 }
               >
-                {item.unityPrice}
+                {item.price.replace('.', ',')}
               </td>
               <td
                 data-testid={
                   `${userType}_${page}__element-order-table-sub-total-${index}`
                 }
               >
-                {item.subTotal}
+                {(item.quantity * item.price)
+                  .toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </td>
               {(page === 'checkout') && (
-                <td
-                  data-testid={
-                    `${userType}_${page}__element-order-table-remove-${index}`
-                  }
-                >
-                  <button type="button" onClick={ () => handleRemoveProduct(index) }>
+                <td>
+                  <button
+                    data-testid={
+                      `${userType}_${page}__element-order-table-remove-${index}`
+                    }
+                    type="button"
+                    onClick={ () => handleRemoveProduct(item) }
+                  >
                     Remover
                   </button>
                 </td>
@@ -93,11 +93,15 @@ function OrderTable(page) {
         <p data-testid={ `${userType}_${page}__element-order-total-price` }>
           Total: R$
           {' '}
-          {totalPrice}
+          {totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
         </p>
       </div>
     </div>
   );
 }
+
+OrderTable.propTypes = {
+  page: PropTypes.string.isRequired,
+};
 
 export default OrderTable;
