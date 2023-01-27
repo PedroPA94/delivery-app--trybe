@@ -4,7 +4,7 @@ import AppContext from '../AppContext/AppContext';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { requestGet } from '../services/request';
+import { requestGet, setToken } from '../services/request';
 
 function Products() {
   const [products, setProducts] = useState([]);
