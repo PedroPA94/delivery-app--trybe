@@ -1,21 +1,16 @@
 import { render } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
 import React from 'react';
-import { Router } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import Provider from '../../AppContext/Provider';
 
-const renderWithRouterAndContext = (component, AppProvider, historyEntries = ['/']) => {
-  const history = createMemoryHistory({ initialEntries: historyEntries });
-  return {
-    ...render(
-      <Provider value={ AppProvider }>
-        <Router history={ history }>
-          {component}
-        </Router>
-      </Provider>,
-    ),
-    history,
-  };
-};
+const renderWithRouterAndContext = (component, AppProvider, historyEntries = ['/']) => ({
+  ...render(
+    <Provider value={ AppProvider }>
+      <MemoryRouter initialEntries={ historyEntries }>
+        {component}
+      </MemoryRouter>
+    </Provider>,
+  ),
+});
 
 export default renderWithRouterAndContext;
