@@ -21,20 +21,20 @@ describe('The token validation middleware:', function () {
   });
 
   it('Throws an error if no token is found', async function () {
-    const validRequest = { 
+    const badRequest = { 
       headers: { authorization: '' }, 
       body: {}
     }
 
     try {
-      validateToken(validRequest, {}, '')
+      validateToken(badRequest, {}, '')
     } catch (error) {
       expect(error.message).to.be.equal('Token not found')
     }
   });
 
   it('Throws an error if the token is expired or invalid', async function () {
-    const validRequest = { 
+    const badRequest = { 
       headers: { authorization: 'token' }, 
       body: {}
     }
@@ -42,7 +42,7 @@ describe('The token validation middleware:', function () {
     sinon.stub(jwt, 'verify').returns({})
 
     try {
-      validateToken(validRequest, {}, '')
+      validateToken(badRequest, {}, '')
     } catch (error) {
       expect(error.message).to.be.equal('Expired or invalid token')
     }
