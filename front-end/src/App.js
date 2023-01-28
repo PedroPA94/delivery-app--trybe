@@ -1,5 +1,5 @@
-import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import Admin from './pages/Admin';
 import Checkout from './pages/Checkout';
 import Login from './pages/Login';
@@ -7,6 +7,13 @@ import Products from './pages/Products';
 import Register from './pages/Register';
 
 function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Google Analytics
+    // ga('send', 'pageview');
+  }, [location]);
+
   return (
     <Routes>
       <Route exact path="/" element={ <Navigate to="/login" /> } />
