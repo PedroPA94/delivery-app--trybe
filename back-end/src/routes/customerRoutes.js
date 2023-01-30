@@ -6,4 +6,3 @@ const routes = Router();
 routes.get('/products', productController);
 
 module.exports = routes;
-
