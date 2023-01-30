@@ -12,4 +12,8 @@ export const requestPost = async (endpoint, body) => instance.post(endpoint, bod
 
 export const requestGet = async (endpoint) => instance.get(endpoint);
 
+export const requestGetAllSale = async (endpoint) => instance.get(endpoint);
+
+export const requestGetAllById = async (endpoint, body) => instance.get(endpoint, body);
+
 export default instance;

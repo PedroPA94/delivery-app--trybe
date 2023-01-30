@@ -9,7 +9,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
-  const [, setUser] = useLocalStorage('user');
+  const [user, setUser] = useLocalStorage('user');
 
   const navigate = useNavigate();
 
@@ -19,6 +19,21 @@ function Login() {
     const verifyPassword = (password.length >= passwordLength);
     if (verifyEmail && verifyPassword) setIsDisabled(false);
   }, [email, password]);
+
+  useEffect(() => {
+    async function logged() {
+      try {
+        setToken(user.token);
+        if (user.role === 'customer') {
+          navigate('/customer/products');
+        }
+      } catch (error) {
+        localStorage.clear();
+        navigate('/login');
+      }
+    }
+    logged();
+  }, []);
 
   const getUserPage = (role) => {
     if (role === 'customer') return 'products';

@@ -15,16 +15,18 @@ function Navbar() {
     <header>
       { user && (
         <>
-          <div data-testid="customer_products__element-navbar-link-products">
+          <div>
             <button
+              data-testid="customer_products__element-navbar-link-products"
               type="button"
               onClick={ () => navigate(`/${user.role}/products`) }
             >
               Produtos
             </button>
           </div>
-          <div data-testid="customer_products__element-navbar-link-orders">
+          <div>
             <button
+              data-testid="customer_products__element-navbar-link-orders"
               type="button"
               onClick={ () => navigate(`/${user.role}/orders`) }
             >
