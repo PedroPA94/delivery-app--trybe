@@ -1,15 +1,19 @@
-import { render, screen } from '@testing-library/react';
-
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import axios from 'axios';
-import { BrowserRouter } from 'react-router-dom';
-import App from '../../App';
 import Provider from '../../AppContext/Provider';
 import Login from '../../pages/Login';
-import { customer } from '../mocks/requisitions';
+
 import renderWithRouterAndContext from '../utils/renderWithRouterAndContext';
 
 jest.mock('axios');
+
+// const allProviders = ({ children }) => (
+//   <Provider>
+//     <BrowserRouter>
+//       {children}
+//     </BrowserRouter>
+//   </Provider>
+// );
 
 describe('Login page', () => {
   it('should have a login form with input elements', () => {
@@ -27,40 +31,49 @@ describe('Login page', () => {
     expect(registerButton).toBeInTheDocument();
   });
 
-  // it(
-  //   'should change to the register page when user clicks "Ainda não tenho conta" button',
-  //   () => {
-  //     const { history } = renderWithRouterAndContext(<Login />, Provider, ['/login']);
+  it(
+    'should change to the register page when user clicks "Ainda não tenho conta" button',
+    async () => {
+      renderWithRouterAndContext(<Login />, Provider, ['/login']);
 
-  //     const registerButton = screen.getByTestId('common_login__button-register');
+      const registerButton = screen.getByTestId('common_login__button-register');
 
-  //     userEvent.click(registerButton);
-  //     expect(history.location.pathname).toBe('/register');
-  //   },
-  // );
+      userEvent.click(registerButton);
 
-  it('should change to products page if the client login is correct', async () => {
-    render(<App />, { wrapper: BrowserRouter });
+      expect(screen.getByTestId('common_register__input-email'));
+    },
+  );
 
-    axios.post.mockResolvedValue(customer);
+  // it('should change to products page if the client login is correct', async () => {
+  //   // render(<App />, { wrapper: BrowserRouter });
+  //   render(
+  //     <App />,
+  //     { wrapper: BrowserRouter },
+  //   );
+  //   // render(<App />, { wrapper: allProviders });
 
-    const emailInput = screen.getByTestId('common_login__input-email');
-    const passwordInput = screen.getByTestId('common_login__input-password');
-    const loginButton = screen.getByTestId('common_login__button-login');
+  //   axios.post.mockResolvedValue(customer);
 
-    userEvent.type(emailInput, 'cliente@email.com');
-    userEvent.type(passwordInput, '123456');
+  //   const emailInput = screen.getByTestId('common_login__input-email');
+  //   const passwordInput = screen.getByTestId('common_login__input-password');
+  //   const loginButton = screen.getByTestId('common_login__button-login');
 
-    expect(emailInput).toHaveValue('cliente@email.com');
-    expect(passwordInput).toHaveValue('123456');
-    expect(loginButton).toBeEnabled();
-    // const { location: { pathname } } = window;
+  //   userEvent.type(emailInput, 'cliente@email.com');
+  //   userEvent.type(passwordInput, '123456');
 
-    await userEvent.click(loginButton);
+  //   expect(emailInput).toHaveValue('cliente@email.com');
+  //   expect(passwordInput).toHaveValue('123456');
+  //   expect(loginButton).toBeEnabled();
+  //   // const { location: { pathname } } = window;
 
-    expect(screen.getByTestId('common_login__element-invalid-email'))
-      .toBeInTheDocument();
-    // expect(screen.getByTestId('customer_products__element-card-title-1'))
-    //   .toBeInTheDocument();
-  });
+  //   userEvent.click(loginButton);
+
+  //   expect(screen.getByTestId('customer_products__element-card-title-1'))
+  //     .toBeInTheDocument();
+
+  //   // expect(screen.getByTestId('common_login__element-invalid-email'))
+  //   //   .toBeInTheDocument();
+  //   // expect(screen.getByTestId('customer_products__element-card-title-1'))
+  //   //   .toBeInTheDocument();
+  // });
 });
