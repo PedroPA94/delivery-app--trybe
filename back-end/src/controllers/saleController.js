@@ -10,9 +10,22 @@ const updateSaleStatus = async (req, res) => {
   console.log(status, 'status');
   const result = await saleService.updateSaleStatus(saleId, status);
   return res.status(200).json(result);
+}
+
+const getAllSales = async (_req, res) => {
+  const result = await saleService.getAllSales();
+  res.status(200).json(result);
+};
+
+const getDetailedSale = async (req, res) => {
+  const { id } = req.params;
+  const result = await saleService.getDetailedSale(id);
+  res.json(result);
 };
 
 module.exports = {
   createSale,
   updateSaleStatus,
+  getDetailedSale,
+  getAllSales,
 };

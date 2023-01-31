@@ -19,6 +19,7 @@ function Products() {
         const productsFromDB = await requestGet('/products');
         setProducts(productsFromDB.data);
       } catch (error) {
+        console.log(error);
         localStorage.clear();
         navigate('/login');
       }

@@ -6,5 +6,7 @@ const routes = Router();
 routes.post('/', saleController.createSale);
 
 routes.put('/', saleController.updateSaleStatus);
+routes.get('/', saleController.getAllSales);
+routes.get('/:id', saleController.getDetailedSale);
 
 module.exports = routes;

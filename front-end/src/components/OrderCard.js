@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 function OrderCard({ order }) {
-  const { id, status, date, price, address } = order;
+  const { id, status, saleDate, totalPrice, deliveryAddress } = order;
   const [user] = useLocalStorage('user');
   const navigate = useNavigate();
 
@@ -22,15 +22,17 @@ function OrderCard({ order }) {
         <p>{status}</p>
       </div>
       <div data-testid={ `${user.role}_orders__element-order-date-${id}` }>
-        <p>{date}</p>
+        <p>
+          {(new Date(saleDate)).toLocaleDateString('en-GB')}
+        </p>
       </div>
       <div data-testid={ `${user.role}_orders__element-card-price-${id}` }>
-        <p>{price}</p>
+        <p>{totalPrice.replace('.', ',')}</p>
       </div>
-      { address
+      { deliveryAddress
           && (
             <div data-testid={ `seller_orders__element-card-address-${id}` }>
-              <p>{address}</p>
+              <p>{deliveryAddress}</p>
             </div>
           )}
     </button>
@@ -41,9 +43,9 @@ OrderCard.propTypes = {
   order: PropTypes.shape({
     id: PropTypes.number,
     status: PropTypes.string,
-    date: PropTypes.string,
-    price: PropTypes.number,
-    address: PropTypes.string,
+    saleDate: PropTypes.string,
+    totalPrice: PropTypes.number,
+    deliveryAddress: PropTypes.string,
   }).isRequired,
 };
 
