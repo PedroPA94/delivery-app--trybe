@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import Navbar from '../components/Navbar';
 import OrderTable from '../components/OrderTable';
+import StatusSales from '../components/StatusSales';
 import { requestGet } from '../services/request';
 
 function OrderDetails() {
@@ -32,7 +33,7 @@ function OrderDetails() {
     getUsers();
   }, [order]);
 
-  const testid = 'customer_order_details__element-order-details-label-delivery-status';
+  // const testid = 'customer_order_details__element-order-details-label-delivery-status';
 
   return (
     <div>
@@ -60,7 +61,8 @@ function OrderDetails() {
           >
             {(new Date(order[0].saleDate)).toLocaleDateString('en-GB')}
           </p>
-          <p
+          <StatusSales saleId={ id } status={ order[0].status } />
+          {/* <p
             data-testid={ testid }
           >
             {order[0].status}
@@ -71,7 +73,7 @@ function OrderDetails() {
           >
             MARCAR COMO ENTREGUE
 
-          </button>
+          </button> */}
         </>
       )}
       <OrderTable page="order_details" />

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { requestPut } from '../services/request';
 
-function StatusSales() {
+function StatusSales({ saleId, status }) {
   const [user] = useLocalStorage('user');
-  const [status, setStatus] = useState('Pendente');
   const [isCustomer, setIsCustomer] = useState(false);
 
   useEffect(() => {
@@ -11,16 +11,8 @@ function StatusSales() {
     setIsCustomer(checkRole(user));
   }, [user]);
 
-  const handlePrepareOrder = () => {
-    setStatus('Preparando');
-  };
-
-  const handleDelivery = () => {
-    setStatus('Em transito');
-  };
-
-  const handleDelivered = () => {
-    setStatus('Entregue');
+  const updateStatus = async (newStatus) => {
+    await requestPut('/', { saleId, status: newStatus });
   };
 
   return (
@@ -30,7 +22,7 @@ function StatusSales() {
           <div>
             <h1
               data-testid="customer_order_details__
-                            element-order-details-label-delivery-status<index>"
+                            element-order-details-label-delivery-status"
             >
               Status:
               {' '}
@@ -40,7 +32,7 @@ function StatusSales() {
               data-testid="customer_order_details__button-delivery-check"
               type="button"
               disabled={ status === 'Em transito' }
-              onClick={ handleDelivered }
+              onClick={ () => updateStatus('Entregue') }
             >
               MARCAR COMO ENTREGUE
             </button>
@@ -59,7 +51,7 @@ function StatusSales() {
               data-testid="seller_order_details__button-preparing-check"
               type="button"
               disabled={ status !== 'Pendente' }
-              onClick={ handlePrepareOrder }
+              onClick={ () => updateStatus('Preparando') }
             >
               Preparar Pedido
             </button>
@@ -67,7 +59,7 @@ function StatusSales() {
               data-testid="seller_order_details__button-dispatch-check"
               type="button"
               disabled={ status !== 'Preparando' }
-              onClick={ handleDelivery }
+              onClick={ () => updateStatus('Em transito') }
             >
               Saiu para entrega
             </button>
@@ -78,5 +70,10 @@ function StatusSales() {
     </div>
   );
 }
+
+StatusSales.propTypes = {
+  saleId: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
+};
 
 export default StatusSales;
