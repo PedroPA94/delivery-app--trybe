@@ -13,12 +13,12 @@ function StatusSales({ saleId, status }) {
   }, [user]);
 
   const updateStatus = async (newStatus) => {
-    await requestPut('/', { saleId, status: newStatus });
+    await requestPut('/sale/orders', { saleId, status: newStatus });
+    window.location.reload();
   };
 
-  const testid = 'customer_order_details__element-order-details-label-delivery-status';
-
-  const testIdSel = 'seller_order_details__element-order-details-label-delivery-status';
+  const dataTestOrder = '_order_details__element-order-details-label-delivery-status';
+  const testid = `${user.role}${dataTestOrder}`;
 
   return (
     <div>
@@ -44,7 +44,7 @@ function StatusSales({ saleId, status }) {
         : (
           <div>
             <h1
-              data-testid={ testIdSel }
+              data-testid={ testid }
             >
               Status:
               {' '}
@@ -68,8 +68,6 @@ function StatusSales({ saleId, status }) {
             </button>
           </div>
         )}
-      ;
-
     </div>
   );
 }

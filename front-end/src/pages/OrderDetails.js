@@ -4,12 +4,15 @@ import AppContext from '../AppContext/AppContext';
 import Navbar from '../components/Navbar';
 import OrderTable from '../components/OrderTable';
 import StatusSales from '../components/StatusSales';
+import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet } from '../services/request';
 
 function OrderDetails() {
+  const [user] = useLocalStorage('user');
   const { setOrder, order } = useContext(AppContext);
   const { id } = useParams();
   const [sellerName, setSellerName] = useState();
+  const [date, setDate] = useState('');
 
   const getOrders = async () => {
     const { data } = await requestGet(`/sale/${id}`);
@@ -21,6 +24,7 @@ function OrderDetails() {
 
   const getUsers = async () => {
     const sellers = await requestGet('/seller');
+    console.log(order[0]);
     const result = sellers.data.find((e) => e.id === order[0].sellerId);
     setSellerName(result.name);
   };
@@ -31,6 +35,10 @@ function OrderDetails() {
 
   useEffect(() => {
     getUsers();
+    if (order.length > 0) {
+      console.log(typeof order[0].saleDate);
+      setDate((new Date(order[0].saleDate)).toLocaleDateString('en-GB'));
+    }
   }, [order]);
 
   // const testid = 'customer_order_details__element-order-details-label-delivery-status';
@@ -43,37 +51,33 @@ function OrderDetails() {
       && (
         <>
           <p
-            data-testid="customer_order_details__element-order-details-label-order-id"
+            data-testid={
+              `${user.role}_order_details__element-order-details-label-order-id`
+            }
           >
             Pedido
             00
             {id}
-            ;
           </p>
+          { (
+            user.role === 'customer')
+          && (
+            <p
+              data-testid={
+                `${user.role}_order_details__element-order-details-label-seller-name`
+              }
+            >
+              {sellerName}
+            </p>
+          )}
           <p
-            data-testid="customer_order_details__element-order-details-label-seller-name"
+            data-testid={
+              `${user.role}_order_details__element-order-details-label-order-date`
+            }
           >
-            {sellerName}
-
-          </p>
-          <p
-            data-testid="customer_order_details__element-order-details-label-order-date"
-          >
-            {(new Date(order[0].saleDate)).toLocaleDateString('en-GB')}
+            { date }
           </p>
           <StatusSales saleId={ id } status={ order[0].status } />
-          {/* <p
-            data-testid={ testid }
-          >
-            {order[0].status}
-          </p>
-          <button
-            data-testid="customer_order_details__button-delivery-check"
-            type="button"
-          >
-            MARCAR COMO ENTREGUE
-
-          </button> */}
         </>
       )}
       <OrderTable page="order_details" />
