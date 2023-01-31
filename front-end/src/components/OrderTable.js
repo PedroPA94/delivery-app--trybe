@@ -4,9 +4,10 @@ import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 function OrderTable({ page }) {
-  const { cart, getTotalValue, changeQuantity } = useContext(AppContext);
+  const { cart, getTotalValue, changeQuantity, order } = useContext(AppContext);
   const [user] = useLocalStorage('user');
   const { role: userType } = user;
+  const [productList, setProductList] = useState([]);
 
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -14,6 +15,14 @@ function OrderTable({ page }) {
     const value = getTotalValue();
     setTotalPrice(value);
   }, [cart]);
+
+  useEffect(() => {
+    if (page === 'checkout') {
+      setProductList(cart);
+    } else {
+      setProductList(order);
+    }
+  }, [cart, order]);
 
   const handleRemoveProduct = (product) => {
     changeQuantity({ ...product, quantity: 0 });
@@ -35,7 +44,7 @@ function OrderTable({ page }) {
           </tr>
         </thead>
         <tbody>
-          { cart.map((item, index) => (
+          { productList.map((item, index) => (
             <tr key={ item.id }>
               <td
                 data-testid={
@@ -90,11 +99,18 @@ function OrderTable({ page }) {
         </tbody>
       </table>
       <div>
-        <p data-testid={ `${userType}_${page}__element-order-total-price` }>
-          Total: R$
-          {' '}
-          {totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-        </p>
+        {productList.length > 0
+        && (
+          <p data-testid={ `${userType}_${page}__element-order-total-price` }>
+            Total: R$
+            {' '}
+            {
+              (page === 'checkout'
+                ? totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+                : productList[0].totalPrice)
+            }
+          </p>
+        )}
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import AppContext from './AppContext';
 
 function Provider({ children }) {
   const [cart, setCart] = useState([]);
+  const [order, setOrder] = useState([]);
 
   const changeQuantity = (product) => {
     if (product.quantity === 0) {
@@ -39,7 +40,9 @@ function Provider({ children }) {
     cart,
     changeQuantity,
     getTotalValue,
-  }), [cart]);
+    order,
+    setOrder,
+  }), [cart, order]);
 
   return (
     <AppContext.Provider value={ providerValue }>
