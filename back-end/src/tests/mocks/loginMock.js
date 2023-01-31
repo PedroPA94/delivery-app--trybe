@@ -5,6 +5,13 @@ const loginServiceResult = {
   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX"
 };
 
+const loginServiceCustomer = {
+  email: 'zebirita@email.com',
+  name: 'Cliente Zé Birita',
+  role: 'customer',
+  token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpX"
+}
+
 const userFindOne = {
   id: 3,
   name: 'Cliente Zé Birita',
@@ -15,5 +22,6 @@ const userFindOne = {
 
 module.exports = {
   loginServiceResult,
+  loginServiceCustomer,
   userFindOne,
 };
