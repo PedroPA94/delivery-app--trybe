@@ -10,7 +10,7 @@ const updateSaleStatus = async (req, res) => {
   console.log(status, 'status');
   const result = await saleService.updateSaleStatus(saleId, status);
   return res.status(200).json(result);
-}
+};
 
 const getAllSales = async (_req, res) => {
   const result = await saleService.getAllSales();

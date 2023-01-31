@@ -62,5 +62,5 @@ module.exports = {
   createSale,
   getDetailedSale,
   getAllSales,
-  updateSaleStatus
+  updateSaleStatus,
 };
