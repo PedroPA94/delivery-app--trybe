@@ -101,14 +101,18 @@ function OrderTable({ page }) {
       <div>
         {productList.length > 0
         && (
-          <p data-testid={ `${userType}_${page}__element-order-total-price` }>
+          <p>
             Total: R$
             {' '}
-            {
-              (page === 'checkout'
-                ? totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
-                : productList[0].totalPrice)
-            }
+            <span
+              data-testid={ `${userType}_${page}__element-order-total-price` }
+            >
+              {
+                (page === 'checkout'
+                  ? totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
+                  : productList[0].totalPrice.replace('.', ','))
+              }
+            </span>
           </p>
         )}
       </div>

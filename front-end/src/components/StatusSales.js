@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestPut } from '../services/request';
 
@@ -15,14 +16,17 @@ function StatusSales({ saleId, status }) {
     await requestPut('/', { saleId, status: newStatus });
   };
 
+  const testid = 'customer_order_details__element-order-details-label-delivery-status';
+
+  const testIdSel = 'seller_order_details__element-order-details-label-delivery-status';
+
   return (
     <div>
       { (isCustomer)
         ? (
           <div>
             <h1
-              data-testid="customer_order_details__
-                            element-order-details-label-delivery-status"
+              data-testid={ testid }
             >
               Status:
               {' '}
@@ -31,7 +35,7 @@ function StatusSales({ saleId, status }) {
             <button
               data-testid="customer_order_details__button-delivery-check"
               type="button"
-              disabled={ status === 'Em transito' }
+              disabled={ status !== 'Em transito' }
               onClick={ () => updateStatus('Entregue') }
             >
               MARCAR COMO ENTREGUE
@@ -40,8 +44,7 @@ function StatusSales({ saleId, status }) {
         : (
           <div>
             <h1
-              data-testid="seller_order_details__
-                            element-order-details-label-delivery-status"
+              data-testid={ testIdSel }
             >
               Status:
               {' '}
