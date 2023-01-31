@@ -32,6 +32,11 @@ const createSale = async (data) => {
   return newSale.id;
 };
 
+const updateSaleStatus = async (id, status) => {
+  const result = await Sale.update({ status }, { where: { id } });
+  return result;
+};
+
 const getAllSales = async () => Sale.findAll({
   attributes: ['id',
    'status',
@@ -64,4 +69,5 @@ module.exports = {
   createSale,
   getDetailedSale,
   getAllSales,
+  updateSaleStatus,
 };
