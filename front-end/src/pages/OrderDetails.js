@@ -23,10 +23,12 @@ function OrderDetails() {
   };
 
   const getUsers = async () => {
-    const sellers = await requestGet('/seller');
-    console.log(order[0]);
-    const result = sellers.data.find((e) => e.id === order[0].sellerId);
-    setSellerName(result.name);
+    if (order.length > 0) {
+      const sellers = await requestGet('/seller');
+      console.log(order[0]);
+      const result = sellers.data.find((e) => e.id === order[0].sellerId);
+      setSellerName(result.name);
+    }
   };
 
   useEffect(() => {
