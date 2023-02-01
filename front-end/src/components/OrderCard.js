@@ -13,8 +13,12 @@ function OrderCard({ order }) {
   };
 
   return (
-    <button type="button" onClick={ (event) => handleButton(event) }>
-      <div data-testid={ `${user.role}_orders__element-order-id-${id}` }>
+    <button
+      data-testid={ `${user.role}_orders__element-order-id-${id}` }
+      type="button"
+      onClick={ (event) => handleButton(event) }
+    >
+      <div>
         <p>Pedido</p>
         <p>{id}</p>
       </div>

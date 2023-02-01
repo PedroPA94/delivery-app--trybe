@@ -1,27 +1,38 @@
-import { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useContext, useEffect, useState } from 'react';
+import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { requestGet, requestPut } from '../services/request';
 
-function StatusSales() {
+function StatusSales({ saleIdOrder, status }) {
   const [user] = useLocalStorage('user');
-  const [status, setStatus] = useState('Pendente');
   const [isCustomer, setIsCustomer] = useState(false);
+  const { setOrder, order } = useContext(AppContext);
+
+  const getOrders = async () => {
+    const { data } = await requestGet(`/sale/${saleIdOrder}`);
+    const result = data.map((item) => ({
+      ...item.product, ...item.sale, ...item,
+    }));
+    setOrder(result);
+  };
+
+  useEffect(() => {
+    getOrders();
+  }, [order]);
 
   useEffect(() => {
     const checkRole = (data) => data.role === 'customer';
     setIsCustomer(checkRole(user));
   }, [user]);
 
-  const handlePrepareOrder = () => {
-    setStatus('Preparando');
+  const updateStatus = async (newStatus) => {
+    await requestPut('/sale/orders', { saleId: saleIdOrder, status: newStatus });
+    getOrders();
   };
 
-  const handleDelivery = () => {
-    setStatus('Em transito');
-  };
-
-  const handleDelivered = () => {
-    setStatus('Entregue');
-  };
+  const dataTestOrder = '_order_details__element-order-details-label-delivery-status';
+  const testid = `${user.role}${dataTestOrder}`;
 
   return (
     <div>
@@ -29,8 +40,7 @@ function StatusSales() {
         ? (
           <div>
             <h1
-              data-testid="customer_order_details__
-                            element-order-details-label-delivery-status<index>"
+              data-testid={ testid }
             >
               Status:
               {' '}
@@ -39,8 +49,8 @@ function StatusSales() {
             <button
               data-testid="customer_order_details__button-delivery-check"
               type="button"
-              disabled={ status === 'Em transito' }
-              onClick={ handleDelivered }
+              disabled={ status !== 'Em Trânsito' }
+              onClick={ () => updateStatus('Entregue') }
             >
               MARCAR COMO ENTREGUE
             </button>
@@ -48,8 +58,7 @@ function StatusSales() {
         : (
           <div>
             <h1
-              data-testid="seller_order_details__
-                            element-order-details-label-delivery-status"
+              data-testid={ testid }
             >
               Status:
               {' '}
@@ -59,7 +68,9 @@ function StatusSales() {
               data-testid="seller_order_details__button-preparing-check"
               type="button"
               disabled={ status !== 'Pendente' }
-              onClick={ handlePrepareOrder }
+              onClick={ () => {
+                updateStatus('Preparando');
+              } }
             >
               Preparar Pedido
             </button>
@@ -67,16 +78,19 @@ function StatusSales() {
               data-testid="seller_order_details__button-dispatch-check"
               type="button"
               disabled={ status !== 'Preparando' }
-              onClick={ handleDelivery }
+              onClick={ () => updateStatus('Em Trânsito') }
             >
               Saiu para entrega
             </button>
           </div>
         )}
-      ;
-
     </div>
   );
 }
+
+StatusSales.propTypes = {
+  saleIdOrder: PropTypes.number.isRequired,
+  status: PropTypes.string.isRequired,
+};
 
 export default StatusSales;

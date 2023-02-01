@@ -20,7 +20,7 @@ const getAllSales = async (_req, res) => {
 const getDetailedSale = async (req, res) => {
   const { id } = req.params;
   const result = await saleService.getDetailedSale(id);
-  res.json(result);
+  res.status(200).json(result);
 };
 
 module.exports = {
