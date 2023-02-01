@@ -7,6 +7,7 @@ import OrderDetails from './pages/OrderDetails';
 import Orders from './pages/Orders';
 import Products from './pages/Products';
 import Register from './pages/Register';
+import { GlobalStyles } from './styles/GlobalStyles';
 
 function App() {
   const location = useLocation();
@@ -17,18 +18,20 @@ function App() {
   }, [location]);
 
   return (
-    <Routes>
-      <Route exact path="/" element={ <Navigate to="/login" /> } />
-      <Route path="/login" element={ <Login /> } exact />
-      <Route path="/register" element={ <Register /> } />
-      <Route path="/customer/checkout" element={ <Checkout /> } />
-      <Route path="/customer/products" element={ <Products /> } />
-      <Route path="/customer/orders" element={ <Orders /> } />
-      <Route path="/customer/orders/:id" element={ <OrderDetails /> } />
-      <Route path="/seller/orders" element={ <Orders /> } />
-      <Route path="/seller/orders/:id" element={ <OrderDetails /> } />
-      <Route path="/admin/manage" element={ <Admin /> } />
-    </Routes>
+    <GlobalStyles>
+      <Routes>
+        <Route exact path="/" element={ <Navigate to="/login" /> } />
+        <Route path="/login" element={ <Login /> } exact />
+        <Route path="/register" element={ <Register /> } />
+        <Route path="/customer/checkout" element={ <Checkout /> } />
+        <Route path="/customer/products" element={ <Products /> } />
+        <Route path="/customer/orders" element={ <Orders /> } />
+        <Route path="/customer/orders/:id" element={ <OrderDetails /> } />
+        <Route path="/seller/orders" element={ <Orders /> } />
+        <Route path="/seller/orders/:id" element={ <OrderDetails /> } />
+        <Route path="/admin/manage" element={ <Admin /> } />
+      </Routes>
+    </GlobalStyles>
   );
 }
 
