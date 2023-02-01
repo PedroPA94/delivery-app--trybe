@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Logo from '../images/logo.svg';
 import { requestPost, setToken } from '../services/request';
+import { Input, Button } from '../styles/GlobalStyles';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -61,7 +62,7 @@ function Login() {
       <form>
         <label htmlFor="login">
           Login
-          <input
+          <Input
             type="email"
             id="login"
             data-testid="common_login__input-email"
@@ -73,7 +74,7 @@ function Login() {
         </label>
         <label htmlFor="password">
           Senha
-          <input
+          <Input
             type="password"
             id="password"
             data-testid="common_login__input-password"
@@ -83,14 +84,14 @@ function Login() {
             required
           />
         </label>
-        <button
+        <Button
           type="submit"
           data-testid="common_login__button-login"
           onClick={ (event) => handleLoginButton(event) }
           disabled={ isDisabled }
         >
           LOGIN
-        </button>
+        </Button>
         <button
           type="button"
           data-testid="common_login__button-register"
