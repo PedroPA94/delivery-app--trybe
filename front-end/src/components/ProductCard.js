@@ -1,6 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { IoAddCircleSharp, IoRemoveCircleOutline } from 'react-icons/io5';
 import AppContext from '../AppContext/AppContext';
+import {
+  Img,
+  Price,
+  ProductCardContainer,
+  CartControls,
+  Quantity,
+  CardButtons,
+  CardDiv,
+} from '../styles/ProductCard';
 
 function ProductCard({ product }) {
   const {
@@ -16,48 +26,53 @@ function ProductCard({ product }) {
   useEffect(() => changeQuantity({ ...product, quantity }), [quantity]);
 
   return (
-    <div>
-      <div
-        data-testid={ `customer_products__element-card-price-${id}` }
-      >
-        { price.replace('.', ',') }
-      </div>
-      <div
-        data-testid={ `customer_products__element-card-title-${id}` }
-      >
-        { name }
-      </div>
-      <div>
-        <img
+    <ProductCardContainer>
+      <CardDiv>
+        <Img
           data-testid={ `customer_products__img-card-bg-image-${id}` }
           src={ urlImage }
           alt={ name }
         />
-      </div>
-      <button
-        type="button"
-        id="decrease"
-        onClick={ () => { if (quantity > 0) setQuantity(quantity - 1); } }
-        data-testid={ `customer_products__button-card-rm-item-${id}` }
-      >
-        -
-      </button>
-      <input
-        type="number"
-        min="0"
-        data-testid={ `customer_products__input-card-quantity-${id}` }
-        value={ quantity }
-        onChange={ ({ target }) => setQuantity(Number(target.value)) }
-      />
-      <button
-        type="button"
-        onClick={ () => setQuantity(quantity + 1) }
-        data-testid={ `customer_products__button-card-add-item-${id}` }
-      >
-        +
-      </button>
-
-    </div>
+      </CardDiv>
+      <CardDiv>
+        <div>
+          <p
+            data-testid={ `customer_products__element-card-title-${id}` }
+          >
+            { name }
+          </p>
+          <Price
+            data-testid={ `customer_products__element-card-price-${id}` }
+          >
+            { price.replace('.', ',') }
+          </Price>
+        </div>
+        <CartControls>
+          <CardButtons
+            type="button"
+            id="decrease"
+            onClick={ () => { if (quantity > 0) setQuantity(quantity - 1); } }
+            data-testid={ `customer_products__button-card-rm-item-${id}` }
+          >
+            <IoRemoveCircleOutline />
+          </CardButtons>
+          <Quantity
+            type="number"
+            min="0"
+            data-testid={ `customer_products__input-card-quantity-${id}` }
+            value={ quantity }
+            onChange={ ({ target }) => setQuantity(Number(target.value)) }
+          />
+          <CardButtons
+            type="button"
+            onClick={ () => setQuantity(quantity + 1) }
+            data-testid={ `customer_products__button-card-add-item-${id}` }
+          >
+            <IoAddCircleSharp />
+          </CardButtons>
+        </CartControls>
+      </CardDiv>
+    </ProductCardContainer>
   );
 }
 
