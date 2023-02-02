@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
+import { IoBeerOutline, IoLogOutOutline, IoReceiptOutline } from 'react-icons/io5';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { Header, MenuButton, MenuButtonContainer } from '../styles/Navbar';
 
 function Navbar() {
   const [user] = useLocalStorage('user');
@@ -12,41 +14,37 @@ function Navbar() {
   };
 
   return (
-    <header>
+    <Header>
       { user && (
         <>
-          <div>
-            <button
+          <p data-testid="customer_products__element-navbar-user-full-name">
+            {user.name}
+          </p>
+          <MenuButtonContainer>
+            <MenuButton
               data-testid="customer_products__element-navbar-link-products"
               type="button"
               onClick={ () => navigate(`/${user.role}/products`) }
             >
-              Produtos
-            </button>
-          </div>
-          <div>
-            <button
+              <IoBeerOutline />
+            </MenuButton>
+            <MenuButton
               data-testid="customer_products__element-navbar-link-orders"
               type="button"
               onClick={ () => navigate(`/${user.role}/orders`) }
             >
-              Pedidos
-            </button>
-          </div>
-          <div data-testid="customer_products__element-navbar-user-full-name">
-            <h1>{user.name}</h1>
-          </div>
-          <div>
-            <button
+              <IoReceiptOutline />
+            </MenuButton>
+            <MenuButton
               type="button"
               data-testid="customer_products__element-navbar-link-logout"
               onClick={ () => handleExit() }
             >
-              Sair
-            </button>
-          </div>
+              <IoLogOutOutline />
+            </MenuButton>
+          </MenuButtonContainer>
         </>)}
-    </header>
+    </Header>
   );
 }
 export default Navbar;
