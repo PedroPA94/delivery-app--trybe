@@ -14,7 +14,7 @@ export const GlobalStyles = styled.main`
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 98vh;
+  height: 100%;
   font-size: 16px;
   font-family: Mulish, sans-serif;
 `;
