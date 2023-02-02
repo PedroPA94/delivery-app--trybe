@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { requestPost, setToken } from '../services/request';
 import { Button, Input } from '../styles/GlobalStyles';
 import { LoginForm } from '../styles/LoginStyles';
@@ -9,7 +10,6 @@ function Register() {
   const [localName, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [incorrectLogin, setIncorrectLogin] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,13 +22,11 @@ function Register() {
   };
 
   useEffect(() => {
-    setIncorrectLogin(false);
     verifyLoginFormat();
   }, [email, password, localName]);
 
   const handleLoginButton = async (event) => {
     event.preventDefault();
-    if (!verifyLoginFormat()) return setIncorrectLogin(false);
 
     try {
       const { data } = await requestPost(
@@ -39,7 +37,7 @@ function Register() {
       localStorage.setItem('user', JSON.stringify(data));
       return navigate('/customer/products');
     } catch (error) {
-      setIncorrectLogin(true);
+      toast.error('Usuário já cadastrado');
     }
   };
 
@@ -84,11 +82,11 @@ function Register() {
             CADASTRAR
           </Button>
         </LoginForm>
-        {(incorrectLogin) && (
+        {/* {(incorrectLogin) && (
           <p data-testid="common_register__element-invalid_register">
             *Login ou senha está com formato incorreto.
           </p>
-        )}
+        )} */}
       </RegisterContainer>
     </main>
   );

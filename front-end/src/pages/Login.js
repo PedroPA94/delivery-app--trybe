@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import useLocalStorage from '../hooks/useLocalStorage';
 import Logo from '../images/logo.png';
 import { requestPost, setToken } from '../services/request';
@@ -9,7 +10,6 @@ import { LoginImage, LoginContainer, LoginForm, LinkText } from '../styles/Login
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
   const [user, setUser] = useLocalStorage('user');
 
@@ -53,7 +53,7 @@ function Login() {
       const page = getUserPage(data.role);
       navigate(`/${data.role}/${page}`);
     } catch (error) {
-      setErrorMessage('*Sinto muito, seu login ou senha está incorreto.');
+      toast.error('Sinto muito, seu login ou senha está incorreto.');
     }
   };
 
@@ -102,11 +102,11 @@ function Login() {
             Ainda não tenho conta
           </LinkText>
         </LoginForm>
-        {(errorMessage !== '') && (
+        {/* {(errorMessage !== '') && (
           <p data-testid="common_login__element-invalid-email">
             {errorMessage}
           </p>
-        )}
+        )} */}
       </LoginContainer>
     </main>
   );
