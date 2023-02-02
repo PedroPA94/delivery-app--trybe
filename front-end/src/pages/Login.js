@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
-import Logo from '../images/logo.svg';
+import Logo from '../images/logo.png';
 import { requestPost, setToken } from '../services/request';
 import { Input, Button } from '../styles/GlobalStyles';
 import { LoginImage, LoginContainer, LoginForm, LinkText } from '../styles/LoginStyles';

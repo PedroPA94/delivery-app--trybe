@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 
 export const LoginImage = styled.img`
-  width: 326px;
-  height: 316px;
-  margin-bottom: 50px;
+  width: 350px;
+  height: auto;
+  /* margin-bottom: 20px; */
 `;
 
 export const LoginContainer = styled.div`
-  position: relative;
+  padding-top: 20px;
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   align-items: center;
