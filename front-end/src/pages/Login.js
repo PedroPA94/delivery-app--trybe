@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useLocalStorage from '../hooks/useLocalStorage';
-import Logo from '../images/logo.svg';
+import Logo from '../images/logo.png';
 import { requestPost, setToken } from '../services/request';
 import { Input, Button } from '../styles/GlobalStyles';
+import { LoginImage, LoginContainer, LoginForm, LinkText } from '../styles/LoginStyles';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -58,10 +59,11 @@ function Login() {
 
   return (
     <main>
-      <img src={ Logo } alt="app-logo" />
-      <form>
-        <label htmlFor="login">
-          Login
+      <LoginContainer>
+        <LoginImage src={ Logo } alt="app-logo" />
+        <LoginForm>
+          {/* <LoginLabel htmlFor="login"> */}
+          {/* Login */}
           <Input
             type="email"
             id="login"
@@ -71,9 +73,9 @@ function Login() {
             onChange={ ({ target }) => setEmail(target.value) }
             required
           />
-        </label>
-        <label htmlFor="password">
-          Senha
+          {/* </LoginLabel> */}
+          {/* <LoginLabel htmlFor="password">
+            Senha */}
           <Input
             type="password"
             id="password"
@@ -83,23 +85,29 @@ function Login() {
             onChange={ ({ target }) => setPassword(target.value) }
             required
           />
-        </label>
-        <Button
-          type="submit"
-          data-testid="common_login__button-login"
-          onClick={ (event) => handleLoginButton(event) }
-          disabled={ isDisabled }
-        >
-          LOGIN
-        </Button>
-        <button
-          type="button"
-          data-testid="common_login__button-register"
-          onClick={ () => navigate('/register') }
-        >
-          Ainda não tenho conta
-        </button>
-      </form>
+          {/* </LoginLabel> */}
+          <Button
+            type="submit"
+            data-testid="common_login__button-login"
+            onClick={ (event) => handleLoginButton(event) }
+            disabled={ isDisabled }
+          >
+            Entrar
+          </Button>
+          <LinkText
+            type="button"
+            data-testid="common_login__button-register"
+            onClick={ () => navigate('/register') }
+          >
+            Ainda não tenho conta
+          </LinkText>
+        </LoginForm>
+        {/* {(errorMessage !== '') && (
+          <p data-testid="common_login__element-invalid-email">
+            {errorMessage}
+          </p>
+        )} */}
+      </LoginContainer>
     </main>
   );
 }

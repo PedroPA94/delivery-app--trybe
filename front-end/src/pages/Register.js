@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { requestPost, setToken } from '../services/request';
+import { Button, Input } from '../styles/GlobalStyles';
+import { LoginForm } from '../styles/LoginStyles';
+import RegisterContainer from '../styles/RegisterStyles';
 
 function Register() {
   const [localName, setName] = useState('');
@@ -40,11 +43,10 @@ function Register() {
 
   return (
     <main>
-      <h1>Cadastro</h1>
-      <form className="form-register">
-        <label htmlFor="nome">
-          Nome
-          <input
+      <RegisterContainer>
+        <h1>Novo usuário</h1>
+        <LoginForm className="form-register">
+          <Input
             data-testid="common_register__input-name"
             type="text"
             id="nome"
@@ -53,10 +55,7 @@ function Register() {
             onChange={ ({ target }) => setName(target.value) }
             required
           />
-        </label>
-        <label htmlFor="email">
-          Email
-          <input
+          <Input
             data-testid="common_register__input-email"
             type="email"
             id="email"
@@ -65,10 +64,7 @@ function Register() {
             onChange={ ({ target }) => setEmail(target.value) }
             required
           />
-        </label>
-        <label htmlFor="password">
-          Senha
-          <input
+          <Input
             data-testid="common_register__input-password"
             type="password"
             id="password"
@@ -77,16 +73,21 @@ function Register() {
             onChange={ ({ target }) => setPassword(target.value) }
             required
           />
-        </label>
-        <button
-          data-testid="common_register__button-register"
-          type="submit"
-          onClick={ (event) => handleLoginButton(event) }
-          disabled={ !verifyLoginFormat() }
-        >
-          CADASTRAR
-        </button>
-      </form>
+          <Button
+            data-testid="common_register__button-register"
+            type="submit"
+            onClick={ (event) => handleLoginButton(event) }
+            disabled={ !verifyLoginFormat() }
+          >
+            CADASTRAR
+          </Button>
+        </LoginForm>
+        {/* {(incorrectLogin) && (
+          <p data-testid="common_register__element-invalid_register">
+            *Login ou senha está com formato incorreto.
+          </p>
+        )} */}
+      </RegisterContainer>
     </main>
   );
 }
