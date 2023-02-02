@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, setToken } from '../services/request';
+import { ProductsContainer } from '../styles/Products';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -30,11 +31,11 @@ function Products() {
   return (
     <div>
       <Navbar />
-      <div>
+      <ProductsContainer>
         { products.map((product) => (
           <ProductCard product={ product } key={ product.id } />
         ))}
-      </div>
+      </ProductsContainer>
       <button
         data-testid="customer_products__button-cart"
         type="button"

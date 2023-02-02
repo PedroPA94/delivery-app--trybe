@@ -9,6 +9,7 @@ import {
   CartControls,
   Quantity,
   CardButtons,
+  CardDiv,
 } from '../styles/ProductCard';
 
 function ProductCard({ product }) {
@@ -26,24 +27,26 @@ function ProductCard({ product }) {
 
   return (
     <ProductCardContainer>
-      <div>
+      <CardDiv>
         <Img
           data-testid={ `customer_products__img-card-bg-image-${id}` }
           src={ urlImage }
           alt={ name }
         />
-      </div>
-      <div>
-        <p
-          data-testid={ `customer_products__element-card-title-${id}` }
-        >
-          { name }
-        </p>
-        <Price
-          data-testid={ `customer_products__element-card-price-${id}` }
-        >
-          { price.replace('.', ',') }
-        </Price>
+      </CardDiv>
+      <CardDiv>
+        <div>
+          <p
+            data-testid={ `customer_products__element-card-title-${id}` }
+          >
+            { name }
+          </p>
+          <Price
+            data-testid={ `customer_products__element-card-price-${id}` }
+          >
+            { price.replace('.', ',') }
+          </Price>
+        </div>
         <CartControls>
           <CardButtons
             type="button"
@@ -68,7 +71,7 @@ function ProductCard({ product }) {
             <IoAddCircleSharp />
           </CardButtons>
         </CartControls>
-      </div>
+      </CardDiv>
     </ProductCardContainer>
   );
 }

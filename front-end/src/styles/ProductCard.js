@@ -2,12 +2,21 @@ import styled from 'styled-components';
 import { emphasisColor, Input } from './GlobalStyles';
 
 export const ProductCardContainer = styled.div`
-  background-color: #F2F2F205;
-  width: 328px;
+  background-color: #F2F2F208;
+  width: 324px;
   height: 194px;
   display: flex;
   align-items: center;
   justify-content: space-around;
+  border-radius: 5px;
+`;
+
+export const CardDiv = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
 `;
 
 export const Img = styled.img`
