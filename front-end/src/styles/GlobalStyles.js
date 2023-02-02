@@ -22,6 +22,8 @@ export const GlobalStyles = styled.main`
 export const Input = styled.input`
   background-color: ${inputColor};
   color: ${mainColor};
+  padding: 10px;
+  margin-bottom: 20px;
   width: 251px;
   height: 39px;
   font-size: 16px;
@@ -34,8 +36,10 @@ export const Input = styled.input`
 export const Button = styled.button`
   background-color: ${emphasisColor};
   color: ${mainColor};
-  width: 251px;
-  height: 39px;
+  width: 273px;
+  height: 52px;
+  padding: 10px;
+  margin-bottom: 20px;
   font-size: 16px;
   border-radius: 5px;
   border: none;
