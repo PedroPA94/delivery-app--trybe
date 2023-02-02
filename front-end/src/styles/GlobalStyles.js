@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const mainColor = '#262624';
 export const emphasisColor = '#C99D66';
@@ -44,5 +44,34 @@ export const Button = styled.button`
   :disabled {
     background-color: ${disabledButton};
     color: #616161;
+  }
+`;
+
+export const PopIn = keyframes`
+  0% {
+    transform: scale(0);
+  }
+
+  70% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+`;
+
+export const PopOut = keyframes`
+  0% {
+    transform: scale(1);
+  }
+
+  10% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(0);
+    /* display: hidden; */
   }
 `;

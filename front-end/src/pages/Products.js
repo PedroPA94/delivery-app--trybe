@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
+import { IoCartOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, setToken } from '../services/request';
-import { ProductsContainer } from '../styles/Products';
+import { ProductsContainer, Cart } from '../styles/Products';
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -36,21 +37,22 @@ function Products() {
           <ProductCard product={ product } key={ product.id } />
         ))}
       </ProductsContainer>
-      <button
+      <Cart
         data-testid="customer_products__button-cart"
         type="button"
         onClick={ () => navigate('/customer/checkout') }
         disabled={ getTotalValue() === 0 }
       >
-        Ver carrinho: R$
+        <IoCartOutline />
+        {/* Ver carrinho: R$
         {' '}
         <span
           data-testid="customer_products__checkout-bottom-value"
         >
           { getTotalValue().toLocaleString('pt-BR', { minimumFractionDigits: 2 }) }
 
-        </span>
-      </button>
+        </span> */}
+      </Cart>
     </div>
   );
 }

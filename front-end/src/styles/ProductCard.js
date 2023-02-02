@@ -34,6 +34,7 @@ export const Price = styled.p`
 export const CartControls = styled.div`
   display: flex;
   gap: 15px;
+  justify-content: center;
 `;
 
 export const Quantity = styled(Input)`
