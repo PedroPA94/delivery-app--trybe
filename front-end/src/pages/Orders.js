@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
+import Loading from '../components/Loading';
 import Navbar from '../components/Navbar';
 import OrderCard from '../components/OrderCard';
 import { requestGet } from '../services/request';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
 
   const getOrders = async () => {
     const { data } = await requestGet('/sale');
     setOrders(data);
-    console.log('o usuário consegue ver todos os pedidos existentes');
+    setIsFetching(false);
   };
 
   useEffect(() => {
@@ -19,10 +21,16 @@ function Orders() {
   return (
     <div>
       <Navbar />
-      {orders.map((item) => (
-        <div key={ item.id }>
-          <OrderCard order={ item } />
-        </div>)) }
+      { isFetching
+        ? <Loading />
+        : (
+          <>
+            {orders.map((item) => (
+              <div key={ item.id }>
+                <OrderCard order={ item } />
+              </div>)) }
+          </>
+        )}
     </div>
   );
 }
