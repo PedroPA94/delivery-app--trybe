@@ -3,7 +3,8 @@ import { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, requestPut } from '../services/request';
-import { DeliveredButton } from '../styles/StatusSales';
+import { StatusDisplay } from '../styles/GlobalStyles';
+import { StatusButton, Container } from '../styles/StatusSales';
 
 function StatusSales({ saleIdOrder }) {
   const [user] = useLocalStorage('user');
@@ -41,56 +42,50 @@ function StatusSales({ saleIdOrder }) {
   const testid = `${user.role}${dataTestOrder}`;
 
   return (
-    <div>
-      { (isCustomer)
+    <Container>
+      <StatusDisplay
+        data-testid={ testid }
+        status={ status }
+      >
+        {status}
+      </StatusDisplay>
+      { isCustomer
         ? (
-          <div>
-            <h1
-              data-testid={ testid }
-            >
-              Status:
-              {' '}
-              {status}
-            </h1>
-            <DeliveredButton
-              data-testid="customer_order_details__button-delivery-check"
-              type="button"
-              disabled={ status !== 'Em Trânsito' }
-              onClick={ () => updateStatus('Entregue') }
-            >
-              MARCAR COMO ENTREGUE
-            </DeliveredButton>
-          </div>)
+          <StatusButton
+            data-testid="customer_order_details__button-delivery-check"
+            type="button"
+            disabled={ status !== 'Em Trânsito' }
+            onClick={ () => updateStatus('Entregue') }
+            status="Entregue"
+          >
+            Marcar como entregue
+          </StatusButton>
+        )
         : (
-          <div>
-            <h1
-              data-testid={ testid }
-            >
-              Status:
-              {' '}
-              {status}
-            </h1>
-            <button
+          <>
+            <StatusButton
               data-testid="seller_order_details__button-preparing-check"
               type="button"
               disabled={ status !== 'Pendente' }
               onClick={ () => {
                 updateStatus('Preparando');
               } }
+              status="Preparando"
             >
-              Preparar Pedido
-            </button>
-            <button
+              Preparar pedido
+            </StatusButton>
+            <StatusButton
               data-testid="seller_order_details__button-dispatch-check"
               type="button"
               disabled={ status !== 'Preparando' }
               onClick={ () => updateStatus('Em Trânsito') }
+              status="Em Trânsito"
             >
               Saiu para entrega
-            </button>
-          </div>
+            </StatusButton>
+          </>
         )}
-    </div>
+    </Container>
   );
 }
 

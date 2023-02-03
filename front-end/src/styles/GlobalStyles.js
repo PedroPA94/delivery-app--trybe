@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 export const mainColor = '#262624';
 export const emphasisColor = '#C99D66';
@@ -49,6 +49,31 @@ export const Button = styled.button`
     background-color: ${disabledButton};
     color: #616161;
   }
+`;
+
+const statusChecker = css`
+  background-color: ${({ status }) => {
+    if (status === 'Entregue') return '#29872F';
+    if (status === 'Em Trânsito') return '#5D6DC9';
+    if (status === 'Preparando') return '#C3B63E';
+    return '#CC3835';
+  }};
+`;
+
+export const StatusDisplay = styled.div`
+  ${statusChecker};
+  width: 273px;
+  height: 52px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 15px;
+  font-weight: 700;
+  color: white;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const PopIn = keyframes`
