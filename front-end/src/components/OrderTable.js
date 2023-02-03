@@ -53,12 +53,21 @@ function OrderTable({ page }) {
               >
                 {(index + 1)}
               </td>
-              <td
-                data-testid={
-                  `${userType}_${page}__element-order-table-name-${index}`
-                }
-              >
-                {item.name}
+              <td>
+                <p
+                  data-testid={
+                    `${userType}_${page}__element-order-table-name-${index}`
+                  }
+                >
+                  {item.name}
+                </p>
+                <p
+                  data-testid={
+                    `${userType}_${page}__element-order-table-unit-price-${index}`
+                  }
+                >
+                  {item.price.replace('.', ',')}
+                </p>
               </td>
               <td
                 data-testid={
@@ -66,13 +75,6 @@ function OrderTable({ page }) {
                 }
               >
                 {item.quantity}
-              </td>
-              <td
-                data-testid={
-                  `${userType}_${page}__element-order-table-unit-price-${index}`
-                }
-              >
-                {item.price.replace('.', ',')}
               </td>
               <td
                 data-testid={

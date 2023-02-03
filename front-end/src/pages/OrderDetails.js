@@ -14,34 +14,26 @@ function OrderDetails() {
   const [sellerName, setSellerName] = useState();
   const [date, setDate] = useState('');
 
+  const getSellerName = async () => {
+    const sellers = await requestGet('/seller');
+    const sellerResult = sellers.data.find((e) => e.id === order[0].sellerId);
+    setSellerName(sellerResult.name);
+  };
+
   const getOrders = async () => {
     const { data } = await requestGet(`/sale/${id}`);
     const result = data.map((item) => ({
       ...item.product, ...item.sale, ...item,
     }));
     setOrder(result);
-  };
-
-  const getUsers = async () => {
-    if (order.length > 0) {
-      const sellers = await requestGet('/seller');
-      console.log(order[0]);
-      const result = sellers.data.find((e) => e.id === order[0].sellerId);
-      setSellerName(result.name);
-    }
+    getSellerName();
+    setDate((new Date(order[0].saleDate)).toLocaleDateString('en-GB'));
+    console.log('teste de renderização');
   };
 
   useEffect(() => {
     getOrders();
   }, []);
-
-  useEffect(() => {
-    getUsers();
-    if (order.length > 0) {
-      console.log(typeof order[0].saleDate);
-      setDate((new Date(order[0].saleDate)).toLocaleDateString('en-GB'));
-    }
-  }, [order]);
 
   return (
     <div>
@@ -77,7 +69,7 @@ function OrderDetails() {
           >
             { date }
           </p>
-          <StatusSales saleIdOrder={ order[0].saleId } status={ order[0].status } />
+          <StatusSales saleIdOrder={ order[0].saleId } />
         </>
       )}
       <OrderTable page="order_details" />
