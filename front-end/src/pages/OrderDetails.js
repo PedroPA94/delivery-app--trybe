@@ -25,7 +25,6 @@ function OrderDetails() {
   const getUsers = async () => {
     if (order.length > 0) {
       const sellers = await requestGet('/seller');
-      console.log(order[0]);
       const result = sellers.data.find((e) => e.id === order[0].sellerId);
       setSellerName(result.name);
     }
@@ -77,7 +76,7 @@ function OrderDetails() {
           >
             { date }
           </p>
-          <StatusSales saleIdOrder={ order[0].saleId } status={ order[0].status } />
+          <StatusSales saleIdOrder={ order[0].saleId } />
         </>
       )}
       <OrderTable page="order_details" />

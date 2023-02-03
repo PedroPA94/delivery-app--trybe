@@ -4,10 +4,11 @@ import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, requestPut } from '../services/request';
 
-function StatusSales({ saleIdOrder, status }) {
+function StatusSales({ saleIdOrder }) {
   const [user] = useLocalStorage('user');
-  const [isCustomer, setIsCustomer] = useState(false);
   const { setOrder, order } = useContext(AppContext);
+  const [isCustomer, setIsCustomer] = useState(false);
+  const [status, setStatus] = useState('');
 
   const getOrders = async () => {
     const { data } = await requestGet(`/sale/${saleIdOrder}`);
@@ -19,6 +20,10 @@ function StatusSales({ saleIdOrder, status }) {
 
   useEffect(() => {
     getOrders();
+  }, [status]);
+
+  useEffect(() => {
+    setStatus(order[0].status);
   }, [order]);
 
   useEffect(() => {
@@ -90,7 +95,6 @@ function StatusSales({ saleIdOrder, status }) {
 
 StatusSales.propTypes = {
   saleIdOrder: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired,
 };
 
 export default StatusSales;
