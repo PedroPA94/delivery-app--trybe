@@ -1,7 +1,7 @@
 import CheckoutForm from '../components/CheckoutForm';
 import Navbar from '../components/Navbar';
 import OrderTable from '../components/OrderTable';
-import { CheckoutContainer } from '../styles/Checkout';
+import { CheckoutContainer, FormContainer } from '../styles/Checkout';
 
 function Checkout() {
   return (
@@ -12,12 +12,12 @@ function Checkout() {
           <h2>Finalizar Pedido</h2>
           <OrderTable page="checkout" />
         </section>
-        <section>
-          <h2>Detalhes e Endereço para Entrega</h2>
+        <FormContainer>
+          <h2>Detalhes da Entrega</h2>
           <div>
             <CheckoutForm />
           </div>
-        </section>
+        </FormContainer>
       </CheckoutContainer>
     </div>
   );

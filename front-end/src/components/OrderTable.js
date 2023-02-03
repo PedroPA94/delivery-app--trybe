@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { IoTrashSharp } from 'react-icons/io5';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { Table } from '../styles/OderTable';
+import { OrderTableContainer, Table, TotalPriceContainer } from '../styles/OderTable';
 
 function OrderTable({ page }) {
   const { cart, getTotalValue, changeQuantity, order } = useContext(AppContext);
@@ -31,7 +31,7 @@ function OrderTable({ page }) {
   };
 
   return (
-    <OrderTable>
+    <OrderTableContainer>
       <Table>
         <tbody>
           { productList.map((item, index) => (
@@ -93,7 +93,7 @@ function OrderTable({ page }) {
             </tr>))}
         </tbody>
       </Table>
-      <div>
+      <TotalPriceContainer>
         {productList.length > 0
         && (
           <p>
@@ -110,8 +110,8 @@ function OrderTable({ page }) {
             </span>
           </p>
         )}
-      </div>
-    </OrderTable>
+      </TotalPriceContainer>
+    </OrderTableContainer>
   );
 }
 

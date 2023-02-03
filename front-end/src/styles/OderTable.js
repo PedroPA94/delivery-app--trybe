@@ -1,6 +1,16 @@
 import styled from 'styled-components';
 
+export const OrderTableContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  gap: 50px;
+  padding-bottom: 370px;
+`;
+
 export const Table = styled.table`
+  padding: 0;
+  margin: 0;
+
   td { 
     vertical-align: top;
     padding: 7px;
@@ -44,7 +54,14 @@ export const Table = styled.table`
   }
 `;
 
-export const OrderTableContainer = styled.div`
-  /* right: 0;
-  position: absolute; */
+export const TotalPriceContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  padding: 0;
+  margin: 0;
+
+  p {
+    align-self: flex-end;
+    font-weight: 700;
+  }
 `;

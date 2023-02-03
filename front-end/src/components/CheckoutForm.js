@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, requestPost } from '../services/request';
-import { Form, SendOrderButton } from '../styles/CheckoutForm';
+import { Form, InputForm, SelectForm, SendOrderButton } from '../styles/CheckoutForm';
 import Loading from './Loading';
 
 function CheckoutForm() {
@@ -24,7 +24,6 @@ function CheckoutForm() {
 
   const fetchSellers = async () => {
     const { data } = await requestGet('/seller');
-    setSellerId(data[0].id);
     setSellers(data);
     setIsFetching();
   };
@@ -73,7 +72,7 @@ function CheckoutForm() {
       ? <Loading />
       : (
         <Form>
-          <select
+          <SelectForm
             type="text"
             id="select-seller"
             data-testid="customer_checkout__select-seller"
@@ -89,8 +88,8 @@ function CheckoutForm() {
             {(sellers.length > 0) && sellers.map((item) => (
               <option key={ item.id } value={ item.id }>{item.name}</option>
             ))}
-          </select>
-          <input
+          </SelectForm>
+          <InputForm
             type="text"
             id="address"
             data-testid="customer_checkout__input-address"
@@ -99,7 +98,7 @@ function CheckoutForm() {
             placeholder="Endereço"
             required
           />
-          <input
+          <InputForm
             type="text"
             id="address-number"
             data-testid="customer_checkout__input-address-number"
