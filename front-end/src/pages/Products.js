@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { IoCartOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
+import Loading from '../components/Loading';
 import Navbar from '../components/Navbar';
 import ProductCard from '../components/ProductCard';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -13,6 +14,7 @@ function Products() {
   const { getTotalValue } = useContext(AppContext);
   const navigate = useNavigate();
   const [user] = useLocalStorage('user');
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -20,6 +22,7 @@ function Products() {
         setToken(user.token);
         const productsFromDB = await requestGet('/products');
         setProducts(productsFromDB.data);
+        setIsFetching(false);
       } catch (error) {
         console.log(error);
         localStorage.clear();
@@ -32,27 +35,25 @@ function Products() {
   return (
     <div>
       <Navbar />
-      <ProductsContainer>
-        { products.map((product) => (
-          <ProductCard product={ product } key={ product.id } />
-        ))}
-      </ProductsContainer>
-      <Cart
-        data-testid="customer_products__button-cart"
-        type="button"
-        onClick={ () => navigate('/customer/checkout') }
-        disabled={ getTotalValue() === 0 }
-      >
-        <IoCartOutline />
-        {/* Ver carrinho: R$
-        {' '}
-        <span
-          data-testid="customer_products__checkout-bottom-value"
-        >
-          { getTotalValue().toLocaleString('pt-BR', { minimumFractionDigits: 2 }) }
-
-        </span> */}
-      </Cart>
+      { isFetching
+        ? <Loading />
+        : (
+          <>
+            <ProductsContainer>
+              { products.map((product) => (
+                <ProductCard product={ product } key={ product.id } />
+              ))}
+            </ProductsContainer>
+            <Cart
+              data-testid="customer_products__button-cart"
+              type="button"
+              onClick={ () => navigate('/customer/checkout') }
+              disabled={ getTotalValue() === 0 }
+            >
+              <IoCartOutline />
+            </Cart>
+          </>
+        )}
     </div>
   );
 }
