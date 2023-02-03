@@ -8,7 +8,7 @@ function StatusSales({ saleIdOrder }) {
   const [user] = useLocalStorage('user');
   const { setOrder, order } = useContext(AppContext);
   const [isCustomer, setIsCustomer] = useState(false);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState(order[0].status);
 
   const getOrders = async () => {
     const { data } = await requestGet(`/sale/${saleIdOrder}`);

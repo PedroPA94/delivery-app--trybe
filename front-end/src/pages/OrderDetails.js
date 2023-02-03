@@ -20,27 +20,23 @@ function OrderDetails() {
       ...item.product, ...item.sale, ...item,
     }));
     setOrder(result);
-  };
-
-  const getUsers = async () => {
-    if (order.length > 0) {
-      const sellers = await requestGet('/seller');
-      const result = sellers.data.find((e) => e.id === order[0].sellerId);
-      setSellerName(result.name);
-    }
+    const sellers = await requestGet('/seller');
+    const sellerResult = sellers.data.find((e) => e.id === order[0].sellerId);
+    setSellerName(sellerResult.name);
+    setDate((new Date(order[0].saleDate)).toLocaleDateString('en-GB'));
+    console.log('teste de renderização');
   };
 
   useEffect(() => {
     getOrders();
   }, []);
 
-  useEffect(() => {
-    getUsers();
-    if (order.length > 0) {
-      console.log(typeof order[0].saleDate);
-      setDate((new Date(order[0].saleDate)).toLocaleDateString('en-GB'));
-    }
-  }, [order]);
+  // useEffect(() => {
+  //   // getUsers();
+  //   if (order.length > 0) {
+  //     console.log(typeof order[0].saleDate);
+  //   }
+  // }, [order]);
 
   return (
     <div>
