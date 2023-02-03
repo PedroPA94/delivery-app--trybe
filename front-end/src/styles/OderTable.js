@@ -44,7 +44,7 @@ export const Table = styled.table`
   }
 `;
 
-export const OrderTable = styled.div`
+export const OrderTableContainer = styled.div`
   /* right: 0;
   position: absolute; */
 `;
