@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Button } from './GlobalStyles';
 
 export const Table = styled.table`
   td { 
@@ -45,6 +44,7 @@ export const Table = styled.table`
   }
 `;
 
-export const SendOrderButton = styled(Button)`
-  
+export const OrderTable = styled.div`
+  /* right: 0;
+  position: absolute; */
 `;

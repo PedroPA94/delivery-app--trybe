@@ -31,7 +31,7 @@ function OrderTable({ page }) {
   };
 
   return (
-    <div>
+    <OrderTable>
       <Table>
         <tbody>
           { productList.map((item, index) => (
@@ -111,7 +111,7 @@ function OrderTable({ page }) {
           </p>
         )}
       </div>
-    </div>
+    </OrderTable>
   );
 }
 
