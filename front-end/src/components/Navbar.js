@@ -25,20 +25,26 @@ function Navbar() {
             {user.name}
           </p>
           <MenuButtonContainer>
-            <MenuButton
-              data-testid="customer_products__element-navbar-link-products"
-              type="button"
-              onClick={ () => navigate(`/${user.role}/products`) }
-            >
-              <IoBeerOutline />
-            </MenuButton>
-            <MenuButton
-              data-testid="customer_products__element-navbar-link-orders"
-              type="button"
-              onClick={ () => navigate(`/${user.role}/orders`) }
-            >
-              <IoReceiptOutline />
-            </MenuButton>
+            {user.role === 'customer'
+              && (
+                <MenuButton
+                  data-testid="customer_products__element-navbar-link-products"
+                  type="button"
+                  onClick={ () => navigate('/customer/products') }
+                >
+                  <IoBeerOutline />
+                </MenuButton>
+              )}
+            { user.role !== 'administrator'
+              && (
+                <MenuButton
+                  data-testid="customer_products__element-navbar-link-orders"
+                  type="button"
+                  onClick={ () => navigate(`/${user.role}/orders`) }
+                >
+                  <IoReceiptOutline />
+                </MenuButton>
+              )}
             <MenuButton
               type="button"
               data-testid="customer_products__element-navbar-link-logout"

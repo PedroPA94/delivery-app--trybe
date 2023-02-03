@@ -4,6 +4,7 @@ import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, requestPost } from '../services/request';
 import { Form, SendOrderButton } from '../styles/CheckoutForm';
+import Loading from './Loading';
 
 function CheckoutForm() {
   const { cart, setCart, getTotalValue } = useContext(AppContext);
@@ -17,12 +18,15 @@ function CheckoutForm() {
   const [sellerId, setSellerId] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
   const [isSellerSelected, setIsSellerSelected] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   const navigate = useNavigate();
 
   const fetchSellers = async () => {
     const { data } = await requestGet('/seller');
-    return setSellers(data);
+    setSellerId(data[0].id);
+    setSellers(data);
+    setIsFetching();
   };
 
   useEffect(() => {
@@ -65,51 +69,55 @@ function CheckoutForm() {
   };
 
   return (
-    <Form>
-      <select
-        type="text"
-        id="select-seller"
-        data-testid="customer_checkout__select-seller"
-        onChange={ ({ target }) => {
-          setSellerId(target.value);
-          setIsSellerSelected(true);
-        } }
-        required
-      >
-        <option value="" disabled={ isSellerSelected }>
-          Pessoa Vendedora Responsável
-        </option>
-        {(sellers.length > 0) && sellers.map((item) => (
-          <option key={ item.id } value={ item.id }>{item.name}</option>
-        ))}
-      </select>
-      <input
-        type="text"
-        id="address"
-        data-testid="customer_checkout__input-address"
-        value={ deliveryAddress }
-        onChange={ ({ target }) => setDeliveryAddress(target.value) }
-        placeholder="Endereço"
-        required
-      />
-      <input
-        type="text"
-        id="address-number"
-        data-testid="customer_checkout__input-address-number"
-        value={ deliveryNumber }
-        onChange={ ({ target }) => setDeliveryNumber(target.value) }
-        placeholder="Número"
-        required
-      />
-      <SendOrderButton
-        type="submit"
-        data-testid="customer_checkout__button-submit-order"
-        onClick={ (event) => handleSubmitButton(event) }
-        disabled={ isDisabled }
-      >
-        Finalizar Pedido
-      </SendOrderButton>
-    </Form>
+    isFetching
+      ? <Loading />
+      : (
+        <Form>
+          <select
+            type="text"
+            id="select-seller"
+            data-testid="customer_checkout__select-seller"
+            onChange={ ({ target }) => {
+              setSellerId(target.value);
+              setIsSellerSelected(true);
+            } }
+            required
+          >
+            <option value="" disabled={ isSellerSelected }>
+              Pessoa Vendedora Responsável
+            </option>
+            {(sellers.length > 0) && sellers.map((item) => (
+              <option key={ item.id } value={ item.id }>{item.name}</option>
+            ))}
+          </select>
+          <input
+            type="text"
+            id="address"
+            data-testid="customer_checkout__input-address"
+            value={ deliveryAddress }
+            onChange={ ({ target }) => setDeliveryAddress(target.value) }
+            placeholder="Endereço"
+            required
+          />
+          <input
+            type="text"
+            id="address-number"
+            data-testid="customer_checkout__input-address-number"
+            value={ deliveryNumber }
+            onChange={ ({ target }) => setDeliveryNumber(target.value) }
+            placeholder="Número"
+            required
+          />
+          <SendOrderButton
+            type="submit"
+            data-testid="customer_checkout__button-submit-order"
+            onClick={ (event) => handleSubmitButton(event) }
+            disabled={ isDisabled }
+          >
+            Finalizar Pedido
+          </SendOrderButton>
+        </Form>
+      )
   );
 }
 
