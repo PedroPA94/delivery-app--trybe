@@ -30,7 +30,6 @@ function OrderDetails() {
     }));
     setOrder(result);
     await getSellerName();
-    console.log(result);
     setDate((new Date(result[0].saleDate)).toLocaleDateString('en-GB'));
     setIsFetching(false);
   };

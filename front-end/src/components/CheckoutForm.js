@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, requestPost } from '../services/request';
+import { Form, InputForm, SelectForm, SendOrderButton } from '../styles/CheckoutForm';
 import Loading from './Loading';
 
 function CheckoutForm() {
-  const { cart, getTotalValue } = useContext(AppContext);
+  const { cart, setCart, getTotalValue } = useContext(AppContext);
 
   const [user] = useLocalStorage('user');
   const { email: userEmail } = user;
@@ -15,13 +16,14 @@ function CheckoutForm() {
   const [deliveryNumber, setDeliveryNumber] = useState('');
   const [sellers, setSellers] = useState([]);
   const [sellerId, setSellerId] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [isSellerSelected, setIsSellerSelected] = useState(false);
   const [isFetching, setIsFetching] = useState(true);
 
   const navigate = useNavigate();
 
   const fetchSellers = async () => {
     const { data } = await requestGet('/seller');
-    setSellerId(data[0].id);
     setSellers(data);
     setIsFetching();
   };
@@ -29,6 +31,19 @@ function CheckoutForm() {
   useEffect(() => {
     fetchSellers();
   }, []);
+
+  useEffect(() => {
+    const length = 5;
+    const address = (deliveryAddress.length > length);
+    const number = (deliveryNumber.length > 0);
+    const seller = (sellerId !== 0);
+    const typeOfNumber = (/^\d+$/.test(deliveryNumber));
+    if (address && number && typeOfNumber && seller) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [deliveryAddress, deliveryNumber, sellerId]);
 
   const handleSubmitButton = async (event) => {
     event.preventDefault();
@@ -45,6 +60,7 @@ function CheckoutForm() {
           deliveryNumber,
           userEmail },
       );
+      setCart([]);
       return navigate(`/customer/orders/${data.saleId}`);
     } catch (error) {
       console.log(error);
@@ -55,53 +71,52 @@ function CheckoutForm() {
     isFetching
       ? <Loading />
       : (
-        <form>
-          <label htmlFor="select-seller">
-            P. Vendedora Responsável:
-            <select
-              type="text"
-              id="select-seller"
-              data-testid="customer_checkout__select-seller"
-              onChange={ ({ target }) => setSellerId(target.value) }
-              required
-            >
-              {(sellers.length > 0) && sellers.map((item) => (
-                <option key={ item.id } value={ item.id }>{item.name}</option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="address">
-            Endereço
-            <input
-              type="text"
-              id="address"
-              data-testid="customer_checkout__input-address"
-              value={ deliveryAddress }
-              onChange={ ({ target }) => setDeliveryAddress(target.value) }
-              required
-            />
-          </label>
-          <label htmlFor="address-number">
-            Número
-            <input
-              type="text"
-              id="address-number"
-              data-testid="customer_checkout__input-address-number"
-              value={ deliveryNumber }
-              onChange={ ({ target }) => setDeliveryNumber(target.value) }
-              required
-            />
-          </label>
-          <button
+        <Form>
+          <SelectForm
+            type="text"
+            id="select-seller"
+            data-testid="customer_checkout__select-seller"
+            onChange={ ({ target }) => {
+              setSellerId(target.value);
+              setIsSellerSelected(true);
+            } }
+            required
+          >
+            <option value="" disabled={ isSellerSelected }>
+              Pessoa Vendedora Responsável
+            </option>
+            {(sellers.length > 0) && sellers.map((item) => (
+              <option key={ item.id } value={ item.id }>{item.name}</option>
+            ))}
+          </SelectForm>
+          <InputForm
+            type="text"
+            id="address"
+            data-testid="customer_checkout__input-address"
+            value={ deliveryAddress }
+            onChange={ ({ target }) => setDeliveryAddress(target.value) }
+            placeholder="Endereço"
+            required
+          />
+          <InputForm
+            type="text"
+            id="address-number"
+            data-testid="customer_checkout__input-address-number"
+            value={ deliveryNumber }
+            onChange={ ({ target }) => setDeliveryNumber(target.value) }
+            placeholder="Número"
+            required
+          />
+          <SendOrderButton
             type="submit"
             data-testid="customer_checkout__button-submit-order"
             onClick={ (event) => handleSubmitButton(event) }
+            disabled={ isDisabled }
           >
-            FINALIZAR PEDIDO
-          </button>
-        </form>
+            Finalizar Pedido
+          </SendOrderButton>
+        </Form>
       )
-
   );
 }
 
