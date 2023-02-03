@@ -15,7 +15,6 @@ const NEW_USER_MODEL = {
 
 function NewUserForm() {
   const [newUser, setNewUser] = useState(NEW_USER_MODEL);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const handleChange = (target) => {
     const { name, value } = target;
