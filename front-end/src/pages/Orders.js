@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import OrderCard from '../components/OrderCard';
 import { requestGet } from '../services/request';
+import { CustomerOrderContainer, OrdersPageWrap } from '../styles/Order';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -19,10 +20,12 @@ function Orders() {
   return (
     <div>
       <Navbar />
-      {orders.map((item) => (
-        <div key={ item.id }>
-          <OrderCard order={ item } />
-        </div>)) }
+      <OrdersPageWrap>
+        {orders.map((item) => (
+          <CustomerOrderContainer key={ item.id }>
+            <OrderCard order={ item } />
+          </CustomerOrderContainer>)) }
+      </OrdersPageWrap>
     </div>
   );
 }
