@@ -9,6 +9,7 @@ function Orders() {
   const getOrders = async () => {
     const { data } = await requestGet('/sale');
     setOrders(data);
+    console.log('o usuário consegue ver todos os pedidos existentes');
   };
 
   useEffect(() => {
