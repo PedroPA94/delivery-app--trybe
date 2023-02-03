@@ -107,7 +107,7 @@ function CheckoutForm() {
         onClick={ (event) => handleSubmitButton(event) }
         disabled={ isDisabled }
       >
-        FINALIZAR PEDIDO
+        Finalizar Pedido
       </SendOrderButton>
     </Form>
   );

@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
-import { IoTrashOutline } from 'react-icons/io5';
+import { IoTrashSharp } from 'react-icons/io5';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { Table } from '../styles/OderTable';
 
 function OrderTable({ page }) {
   const { cart, getTotalValue, changeQuantity, order } = useContext(AppContext);
@@ -31,7 +32,7 @@ function OrderTable({ page }) {
 
   return (
     <div>
-      <table>
+      <Table>
         <tbody>
           { productList.map((item, index) => (
             <tr key={ item.id }>
@@ -71,6 +72,8 @@ function OrderTable({ page }) {
                   `${userType}_${page}__element-order-table-sub-total-${index}`
                 }
               >
+                R$
+                {' '}
                 {(item.quantity * item.price)
                   .toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </td>
@@ -83,13 +86,13 @@ function OrderTable({ page }) {
                     type="button"
                     onClick={ () => handleRemoveProduct(item) }
                   >
-                    <IoTrashOutline />
+                    <IoTrashSharp />
                   </button>
                 </td>
               )}
             </tr>))}
         </tbody>
-      </table>
+      </Table>
       <div>
         {productList.length > 0
         && (
