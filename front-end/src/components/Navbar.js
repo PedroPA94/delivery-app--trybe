@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import { IoBeerOutline, IoLogOutOutline, IoReceiptOutline } from 'react-icons/io5';
+import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { Header, MenuButton, MenuButtonContainer } from '../styles/Navbar';
 
