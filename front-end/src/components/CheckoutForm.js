@@ -15,12 +15,12 @@ function CheckoutForm() {
   const [sellers, setSellers] = useState([]);
   const [sellerId, setSellerId] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isSellerSelected, setIsSellerSelected] = useState(false);
 
   const navigate = useNavigate();
 
   const fetchSellers = async () => {
     const { data } = await requestGet('/seller');
-    setSellerId(data[0].id);
     return setSellers(data);
   };
 
@@ -32,13 +32,14 @@ function CheckoutForm() {
     const length = 5;
     const address = (deliveryAddress.length > length);
     const number = (deliveryNumber.length > 0);
+    const seller = (sellerId !== 0);
     const typeOfNumber = (/^\d+$/.test(deliveryNumber));
-    if (address && number && typeOfNumber) {
+    if (address && number && typeOfNumber && seller) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-  }, [deliveryAddress, deliveryNumber]);
+  }, [deliveryAddress, deliveryNumber, sellerId]);
 
   const handleSubmitButton = async (event) => {
     event.preventDefault();
@@ -64,20 +65,23 @@ function CheckoutForm() {
 
   return (
     <form>
-      <label htmlFor="select-seller">
-        P. Vendedora Responsável:
-        <select
-          type="text"
-          id="select-seller"
-          data-testid="customer_checkout__select-seller"
-          onChange={ ({ target }) => setSellerId(target.value) }
-          required
-        >
-          {(sellers.length > 0) && sellers.map((item) => (
-            <option key={ item.id } value={ item.id }>{item.name}</option>
-          ))}
-        </select>
-      </label>
+      <select
+        type="text"
+        id="select-seller"
+        data-testid="customer_checkout__select-seller"
+        onChange={ ({ target }) => {
+          setSellerId(target.value);
+          setIsSellerSelected(true);
+        } }
+        required
+      >
+        <option value="" disabled={ isSellerSelected }>
+          Pessoa Vendedora Responsável
+        </option>
+        {(sellers.length > 0) && sellers.map((item) => (
+          <option key={ item.id } value={ item.id }>{item.name}</option>
+        ))}
+      </select>
       <label htmlFor="address">
         Endereço
         <input

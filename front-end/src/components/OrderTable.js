@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
+import { IoTrashOutline } from 'react-icons/io5';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 
@@ -31,17 +32,6 @@ function OrderTable({ page }) {
   return (
     <div>
       <table>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Descrição</th>
-            <th>Quantidade</th>
-            <th>Sub-total</th>
-            {(page === 'checkout') && (
-              <th>Remover Item</th>
-            )}
-          </tr>
-        </thead>
         <tbody>
           { productList.map((item, index) => (
             <tr key={ item.id }>
@@ -92,7 +82,7 @@ function OrderTable({ page }) {
                     type="button"
                     onClick={ () => handleRemoveProduct(item) }
                   >
-                    Remover
+                    <IoTrashOutline />
                   </button>
                 </td>
               )}
