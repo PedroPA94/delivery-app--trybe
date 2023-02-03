@@ -63,6 +63,7 @@ function OrderTable({ page }) {
                   `${userType}_${page}__element-order-table-quantity-${index}`
                 }
               >
+                x
                 {item.quantity}
               </td>
               <td
