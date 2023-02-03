@@ -3,6 +3,7 @@ import Loading from '../components/Loading';
 import Navbar from '../components/Navbar';
 import OrderCard from '../components/OrderCard';
 import { requestGet } from '../services/request';
+import { CustomerOrderContainer, OrdersPageWrap } from '../styles/Order';
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -24,12 +25,12 @@ function Orders() {
       { isFetching
         ? <Loading />
         : (
-          <>
+          <OrdersPageWrap>
             {orders.map((item) => (
-              <div key={ item.id }>
+              <CustomerOrderContainer key={ item.id }>
                 <OrderCard order={ item } />
-              </div>)) }
-          </>
+              </CustomerOrderContainer>)) }
+          </OrdersPageWrap>
         )}
     </div>
   );

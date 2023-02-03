@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { StatusDisplay } from '../styles/GlobalStyles';
+import { CardButtons, DateDiv, PriceDateDiv } from '../styles/Order';
 
 function OrderCard({ order }) {
   const { id, status, saleDate, totalPrice, deliveryAddress } = order;
@@ -13,33 +15,42 @@ function OrderCard({ order }) {
   };
 
   return (
-    <button
+    <CardButtons
       data-testid={ `${user.role}_orders__element-order-id-${id}` }
       type="button"
       onClick={ (event) => handleButton(event) }
     >
-      <div>
-        <p>Pedido</p>
-        <p>{id}</p>
-      </div>
-      <div data-testid={ `${user.role}_orders__element-delivery-status-${id}` }>
-        <p>{status}</p>
-      </div>
-      <div data-testid={ `${user.role}_orders__element-order-date-${id}` }>
-        <p>
-          {(new Date(saleDate)).toLocaleDateString('en-GB')}
-        </p>
-      </div>
-      <div data-testid={ `${user.role}_orders__element-card-price-${id}` }>
-        <p>{totalPrice.replace('.', ',')}</p>
-      </div>
-      { deliveryAddress
+      <PriceDateDiv>
+        <DateDiv>
+          <p>
+            Pedido
+            <span>{id}</span>
+          </p>
+          <p data-testid={ `${user.role}_orders__element-order-date-${id}` }>
+            {(new Date(saleDate)).toLocaleDateString('en-GB')}
+          </p>
+        </DateDiv>
+        <div>
+          <p data-testid={ `${user.role}_orders__element-card-price-${id}` }>
+            R$
+            {' '}
+            {totalPrice.replace('.', ',')}
+          </p>
+        </div>
+      </PriceDateDiv>
+      { user.role === 'seller'
           && (
             <div data-testid={ `seller_orders__element-card-address-${id}` }>
               <p>{deliveryAddress}</p>
             </div>
           )}
-    </button>
+      <StatusDisplay
+        data-testid={ `${user.role}_orders__element-delivery-status-${id}` }
+        status={ status }
+      >
+        {status}
+      </StatusDisplay>
+    </CardButtons>
   );
 }
 
