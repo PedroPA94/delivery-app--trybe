@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, requestPut } from '../services/request';
+import { DeliveredButton } from '../styles/StatusSales';
 
 function StatusSales({ saleIdOrder }) {
   const [user] = useLocalStorage('user');
@@ -51,14 +52,14 @@ function StatusSales({ saleIdOrder }) {
               {' '}
               {status}
             </h1>
-            <button
+            <DeliveredButton
               data-testid="customer_order_details__button-delivery-check"
               type="button"
               disabled={ status !== 'Em Trânsito' }
               onClick={ () => updateStatus('Entregue') }
             >
               MARCAR COMO ENTREGUE
-            </button>
+            </DeliveredButton>
           </div>)
         : (
           <div>
