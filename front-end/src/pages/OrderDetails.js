@@ -31,13 +31,6 @@ function OrderDetails() {
     getOrders();
   }, []);
 
-  // useEffect(() => {
-  //   // getUsers();
-  //   if (order.length > 0) {
-  //     console.log(typeof order[0].saleDate);
-  //   }
-  // }, [order]);
-
   return (
     <div>
       <Navbar />
