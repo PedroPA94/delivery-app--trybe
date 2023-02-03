@@ -78,7 +78,8 @@ function OrderDetails() {
             { date }
           </p>
           <p>
-            Total: R$ $
+            Total: R$
+            {' '}
             {order[0].totalPrice.replace('.', ',')}
           </p>
           <StatusSales saleIdOrder={ order[0].saleId } />
