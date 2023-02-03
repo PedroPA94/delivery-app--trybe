@@ -7,6 +7,7 @@ import OrderTable from '../components/OrderTable';
 import StatusSales from '../components/StatusSales';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet } from '../services/request';
+import OrderDetailsContainer from '../styles/OrderDetails';
 
 function OrderDetails() {
   const [user] = useLocalStorage('user');
@@ -43,43 +44,48 @@ function OrderDetails() {
       { isFetching
         ? <Loading />
         : (
-          <>
-            <h1>Detalhe do Pedido</h1>
+          <OrderDetailsContainer>
+            <h1>Detalhes do Pedido</h1>
             { order.length > 0
-            && (
-              <>
-                <p
-                  data-testid={
-                    `${user.role}_order_details__element-order-details-label-order-id`
-                  }
-                >
-                  Pedido
-                  00
-                  {id}
-                </p>
-                { (
-                  user.role === 'customer')
-            && (
-              <p
-                data-testid={
-                  `${user.role}_order_details__element-order-details-label-seller-name`
-                }
-              >
-                {sellerName}
-              </p>
-            )}
-                <p
-                  data-testid={
-                    `${user.role}_order_details__element-order-details-label-order-date`
-                  }
-                >
-                  { date }
-                </p>
-                <StatusSales saleIdOrder={ order[0].saleId } />
-              </>
-            )}
+      && (
+        <>
+          <p
+            data-testid={
+              `${user.role}_order_details__element-order-details-label-order-id`
+            }
+          >
+            Pedido
+            00
+            {id}
+          </p>
+          { (
+            user.role === 'customer')
+          && (
+            <p
+              data-testid={
+                `${user.role}_order_details__element-order-details-label-seller-name`
+              }
+            >
+              {sellerName}
+            </p>
+          )}
+          <p
+            data-testid={
+              `${user.role}_order_details__element-order-details-label-order-date`
+            }
+          >
+            { date }
+          </p>
+          <p>
+            Total: R$
+            {' '}
+            {order[0].totalPrice.replace('.', ',')}
+          </p>
+          <StatusSales saleIdOrder={ order[0].saleId } />
+        </>
+      )}
             <OrderTable page="order_details" />
-          </>
+          </OrderDetailsContainer>
         )}
     </div>
   );

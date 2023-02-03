@@ -94,7 +94,7 @@ function OrderTable({ page }) {
         </tbody>
       </Table>
       <TotalPriceContainer>
-        {productList.length > 0
+        {productList.length > 0 && page === 'checkout'
         && (
           <p>
             Total: R$
@@ -102,11 +102,7 @@ function OrderTable({ page }) {
             <span
               data-testid={ `${userType}_${page}__element-order-total-price` }
             >
-              {
-                (page === 'checkout'
-                  ? totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })
-                  : productList[0].totalPrice.replace('.', ','))
-              }
+              {totalPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </span>
           </p>
         )}
