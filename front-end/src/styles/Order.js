@@ -11,7 +11,7 @@ export const OrdersPageWrap = styled.div`
 
 export const CustomerOrderContainer = styled.div`
   background-color: #F2F2F208;
-  width: 80%;
+  width: 90%;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -22,7 +22,7 @@ export const CustomerOrderContainer = styled.div`
   `;
 export const CardButtons = styled.button`
   background-color: transparent;
-  width: 80%;
+  width: 95%;
   border: none;
   color: ${emphasisColor};
   display: flex;

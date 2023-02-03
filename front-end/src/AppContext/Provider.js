@@ -38,6 +38,7 @@ function Provider({ children }) {
 
   const providerValue = useMemo(() => ({
     cart,
+    setCart,
     changeQuantity,
     getTotalValue,
     order,

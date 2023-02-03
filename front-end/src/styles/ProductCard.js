@@ -40,6 +40,8 @@ export const CartControls = styled.div`
 export const Quantity = styled(Input)`
   width: 38px;
   height: 31px;
+  padding: 0;
+  margin: 0;
   text-align: center;
 ::-webkit-outer-spin-button,
 ::-webkit-inner-spin-button {

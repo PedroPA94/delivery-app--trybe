@@ -28,6 +28,7 @@
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.0",
+    "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.1",
     "serve": "13.0.2",
     "styled-components": "^5.3.6",

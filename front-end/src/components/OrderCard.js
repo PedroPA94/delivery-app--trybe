@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { StatusDisplay } from '../styles/GlobalStyles';
 import { CardButtons, DateDiv, PriceDateDiv } from '../styles/Order';
 
 function OrderCard({ order }) {
@@ -31,6 +32,8 @@ function OrderCard({ order }) {
         </DateDiv>
         <div>
           <p data-testid={ `${user.role}_orders__element-card-price-${id}` }>
+            R$
+            {' '}
             {totalPrice.replace('.', ',')}
           </p>
         </div>
@@ -41,9 +44,12 @@ function OrderCard({ order }) {
               <p>{deliveryAddress}</p>
             </div>
           )}
-      <p data-testid={ `${user.role}_orders__element-delivery-status-${id}` }>
+      <StatusDisplay
+        data-testid={ `${user.role}_orders__element-delivery-status-${id}` }
+        status={ status }
+      >
         {status}
-      </p>
+      </StatusDisplay>
     </CardButtons>
   );
 }
@@ -53,7 +59,7 @@ OrderCard.propTypes = {
     id: PropTypes.number,
     status: PropTypes.string,
     saleDate: PropTypes.string,
-    totalPrice: PropTypes.number,
+    totalPrice: PropTypes.string,
     deliveryAddress: PropTypes.string,
   }).isRequired,
 };

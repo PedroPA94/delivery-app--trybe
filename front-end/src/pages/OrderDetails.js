@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
+import Loading from '../components/Loading';
 import Navbar from '../components/Navbar';
 import OrderTable from '../components/OrderTable';
 import StatusSales from '../components/StatusSales';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet } from '../services/request';
+import OrderDetailsContainer from '../styles/OrderDetails';
 
 function OrderDetails() {
   const [user] = useLocalStorage('user');
@@ -13,6 +15,7 @@ function OrderDetails() {
   const { id } = useParams();
   const [sellerName, setSellerName] = useState();
   const [date, setDate] = useState('');
+  const [isFetching, setIsFetching] = useState(true);
 
   const getSellerName = async () => {
     const sellers = await requestGet('/seller');
@@ -26,9 +29,9 @@ function OrderDetails() {
       ...item.product, ...item.sale, ...item,
     }));
     setOrder(result);
-    getSellerName();
-    setDate((new Date(order[0].saleDate)).toLocaleDateString('en-GB'));
-    console.log('teste de renderização');
+    await getSellerName();
+    setDate((new Date(result[0].saleDate)).toLocaleDateString('en-GB'));
+    setIsFetching(false);
   };
 
   useEffect(() => {
@@ -38,8 +41,12 @@ function OrderDetails() {
   return (
     <div>
       <Navbar />
-      <h1>Detalhe do Pedido</h1>
-      { order.length > 0
+      { isFetching
+        ? <Loading />
+        : (
+          <OrderDetailsContainer>
+            <h1>Detalhes do Pedido</h1>
+            { order.length > 0
       && (
         <>
           <p
@@ -69,10 +76,17 @@ function OrderDetails() {
           >
             { date }
           </p>
+          <p>
+            Total: R$
+            {' '}
+            {order[0].totalPrice.replace('.', ',')}
+          </p>
           <StatusSales saleIdOrder={ order[0].saleId } />
         </>
       )}
-      <OrderTable page="order_details" />
+            <OrderTable page="order_details" />
+          </OrderDetailsContainer>
+        )}
     </div>
   );
 }
