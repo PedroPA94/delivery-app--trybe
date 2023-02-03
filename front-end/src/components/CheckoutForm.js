@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, requestPost } from '../services/request';
+import { Form, SendOrderButton } from '../styles/CheckoutForm';
 
 function CheckoutForm() {
   const { cart, setCart, getTotalValue } = useContext(AppContext);
@@ -64,7 +65,7 @@ function CheckoutForm() {
   };
 
   return (
-    <form>
+    <Form>
       <select
         type="text"
         id="select-seller"
@@ -82,37 +83,33 @@ function CheckoutForm() {
           <option key={ item.id } value={ item.id }>{item.name}</option>
         ))}
       </select>
-      <label htmlFor="address">
-        Endereço
-        <input
-          type="text"
-          id="address"
-          data-testid="customer_checkout__input-address"
-          value={ deliveryAddress }
-          onChange={ ({ target }) => setDeliveryAddress(target.value) }
-          required
-        />
-      </label>
-      <label htmlFor="address-number">
-        Número
-        <input
-          type="text"
-          id="address-number"
-          data-testid="customer_checkout__input-address-number"
-          value={ deliveryNumber }
-          onChange={ ({ target }) => setDeliveryNumber(target.value) }
-          required
-        />
-      </label>
-      <button
+      <input
+        type="text"
+        id="address"
+        data-testid="customer_checkout__input-address"
+        value={ deliveryAddress }
+        onChange={ ({ target }) => setDeliveryAddress(target.value) }
+        placeholder="Endereço"
+        required
+      />
+      <input
+        type="text"
+        id="address-number"
+        data-testid="customer_checkout__input-address-number"
+        value={ deliveryNumber }
+        onChange={ ({ target }) => setDeliveryNumber(target.value) }
+        placeholder="Número"
+        required
+      />
+      <SendOrderButton
         type="submit"
         data-testid="customer_checkout__button-submit-order"
         onClick={ (event) => handleSubmitButton(event) }
         disabled={ isDisabled }
       >
         FINALIZAR PEDIDO
-      </button>
-    </form>
+      </SendOrderButton>
+    </Form>
   );
 }
 
