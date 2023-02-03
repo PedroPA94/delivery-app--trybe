@@ -5,7 +5,7 @@ import useLocalStorage from '../hooks/useLocalStorage';
 import { requestGet, requestPost } from '../services/request';
 
 function CheckoutForm() {
-  const { cart, getTotalValue } = useContext(AppContext);
+  const { cart, setCart, getTotalValue } = useContext(AppContext);
 
   const [user] = useLocalStorage('user');
   const { email: userEmail } = user;
@@ -14,6 +14,7 @@ function CheckoutForm() {
   const [deliveryNumber, setDeliveryNumber] = useState('');
   const [sellers, setSellers] = useState([]);
   const [sellerId, setSellerId] = useState(0);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const navigate = useNavigate();
 
@@ -26,6 +27,18 @@ function CheckoutForm() {
   useEffect(() => {
     fetchSellers();
   }, []);
+
+  useEffect(() => {
+    const length = 5;
+    const address = (deliveryAddress.length > length);
+    const number = (deliveryNumber.length > 0);
+    const typeOfNumber = (/^\d+$/.test(deliveryNumber));
+    if (address && number && typeOfNumber) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  }, [deliveryAddress, deliveryNumber]);
 
   const handleSubmitButton = async (event) => {
     event.preventDefault();
@@ -42,6 +55,7 @@ function CheckoutForm() {
           deliveryNumber,
           userEmail },
       );
+      setCart([]);
       return navigate(`/customer/orders/${data.saleId}`);
     } catch (error) {
       console.log(error);
@@ -90,6 +104,7 @@ function CheckoutForm() {
         type="submit"
         data-testid="customer_checkout__button-submit-order"
         onClick={ (event) => handleSubmitButton(event) }
+        disabled={ isDisabled }
       >
         FINALIZAR PEDIDO
       </button>
