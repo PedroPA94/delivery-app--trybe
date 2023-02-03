@@ -51,7 +51,7 @@ export const Button = styled.button`
   }
 `;
 
-const statusChecker = css`
+export const statusChecker = css`
   background-color: ${({ status }) => {
     if (status === 'Entregue') return '#29872F';
     if (status === 'Em Trânsito') return '#5D6DC9';

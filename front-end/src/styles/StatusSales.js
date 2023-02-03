@@ -1,14 +1,5 @@
-import styled, { css } from 'styled-components';
-import { Button } from './GlobalStyles';
-
-const statusChecker = css`
-  background-color: ${({ status }) => {
-    if (status === 'Entregue') return '#29872F';
-    if (status === 'Em Trânsito') return '#5D6DC9';
-    if (status === 'Preparando') return '#C3B63E';
-    return '#CC3835';
-  }};
-`;
+import styled from 'styled-components';
+import { Button, statusChecker } from './GlobalStyles';
 
 export const StatusButton = styled(Button)` 
   ${statusChecker}
