@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
+import { IoTrashSharp } from 'react-icons/io5';
 import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { OrderTableContainer, Table, TotalPriceContainer } from '../styles/OderTable';
 
 function OrderTable({ page }) {
   const { cart, getTotalValue, changeQuantity, order } = useContext(AppContext);
@@ -29,20 +31,8 @@ function OrderTable({ page }) {
   };
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Descrição</th>
-            <th>Quantidade</th>
-            <th>Valor Unitário</th>
-            <th>Sub-total</th>
-            {(page === 'checkout') && (
-              <th>Remover Item</th>
-            )}
-          </tr>
-        </thead>
+    <OrderTableContainer>
+      <Table>
         <tbody>
           { productList.map((item, index) => (
             <tr key={ item.id }>
@@ -74,6 +64,7 @@ function OrderTable({ page }) {
                   `${userType}_${page}__element-order-table-quantity-${index}`
                 }
               >
+                x
                 {item.quantity}
               </td>
               <td
@@ -81,6 +72,8 @@ function OrderTable({ page }) {
                   `${userType}_${page}__element-order-table-sub-total-${index}`
                 }
               >
+                R$
+                {' '}
                 {(item.quantity * item.price)
                   .toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </td>
@@ -93,14 +86,14 @@ function OrderTable({ page }) {
                     type="button"
                     onClick={ () => handleRemoveProduct(item) }
                   >
-                    Remover
+                    <IoTrashSharp />
                   </button>
                 </td>
               )}
             </tr>))}
         </tbody>
-      </table>
-      <div>
+      </Table>
+      <TotalPriceContainer>
         {productList.length > 0
         && (
           <p>
@@ -117,8 +110,8 @@ function OrderTable({ page }) {
             </span>
           </p>
         )}
-      </div>
-    </div>
+      </TotalPriceContainer>
+    </OrderTableContainer>
   );
 }
 

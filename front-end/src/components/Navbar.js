@@ -1,15 +1,19 @@
+import { useContext } from 'react';
 import { IoBeerOutline, IoLogOutOutline, IoReceiptOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import AppContext from '../AppContext/AppContext';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { Header, MenuButton, MenuButtonContainer } from '../styles/Navbar';
 
 function Navbar() {
+  const { setCart } = useContext(AppContext);
   const [user] = useLocalStorage('user');
 
   const navigate = useNavigate();
 
   const handleExit = () => {
     localStorage.clear();
+    setCart([]);
     navigate('/login');
   };
 
