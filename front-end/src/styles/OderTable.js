@@ -34,6 +34,10 @@ export const Table = styled.table`
     width: 40%
   }
 
+  td:nth-child(3) {
+    text-transform: capitalize;
+  }
+
   td:nth-child(4) {
     padding: 7px 0;
   }
@@ -43,7 +47,7 @@ export const Table = styled.table`
     width: 30px;
   }
 
-  td:nth-child(5) button {
+  td > button {
     background-color: transparent;
     border: none;
     color: white;

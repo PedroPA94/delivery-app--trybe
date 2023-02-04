@@ -8,11 +8,16 @@ export const placeholderColor = '#949494';
 export const disabledButton = '#BFB3A8';
 
 export const AdmContainer = styled.div`
-  padding-top: 60px;
-  /* position: relative; */
+  padding: 60px 10px 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
+  text-align: left;
+
+  h2 {
+    font-weight: 400;
+    font-size: 20px;
+  }
 `;
 
 export const AdmForm = styled.form`
@@ -21,21 +26,21 @@ export const AdmForm = styled.form`
   align-items: center;
 `;
 
-export const AdmLabel = styled.label`
-  margin-bottom: 20px;
-  text-align: left;
-`;
+// export const AdmLabel = styled.label`
+//   margin-bottom: 20px;
+//   text-align: left;
+// `;
 
-export const LinkText = styled.button`
-  background-color: transparent;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  text-decoration: none;
-  &:focus {
-    outline: none;
-  }
-`;
+// export const LinkText = styled.button`
+//   background-color: transparent;
+//   border: none;
+//   color: inherit;
+//   cursor: pointer;
+//   text-decoration: none;
+//   &:focus {
+//     outline: none;
+//   }
+// `;
 
 export const Select = styled.select`
   background-color: ${inputColor};

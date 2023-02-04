@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 import { requestPost } from '../services/request';
-import { AdmContainer, AdmForm, Select } from '../styles/AdmStyles';
+import { AdmForm, Select } from '../styles/AdmStyles';
 import { Button, Input } from '../styles/GlobalStyles';
 
 const MIN_NAME_LENGTH = 12;
@@ -13,7 +14,7 @@ const NEW_USER_MODEL = {
   role: 'seller',
 };
 
-function NewUserForm() {
+function NewUserForm({ setShouldFetchUsers }) {
   const [newUser, setNewUser] = useState(NEW_USER_MODEL);
 
   const handleChange = (target) => {
@@ -33,17 +34,17 @@ function NewUserForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await requestPost('/register/admin', newUser);
+      await requestPost('/admin', newUser);
+      setShouldFetchUsers(true);
     } catch (error) {
       console.error(error);
-      setShowErrorMessage(true);
       toast.error('Usuário já existe');
     }
     setNewUser(NEW_USER_MODEL);
   };
 
   return (
-    <AdmContainer>
+    <>
       <h2>Cadastrar novo usuário</h2>
       <AdmForm>
         <Input
@@ -90,14 +91,12 @@ function NewUserForm() {
           CADASTRAR
         </Button>
       </AdmForm>
-      {/* <p
-        data-testid="admin_manage__element-invalid-register"
-        hidden={ !showErrorMessage }
-      >
-        *Usuário já existe
-      </p> */}
-    </AdmContainer>
+    </>
   );
 }
+
+NewUserForm.propTypes = {
+  setShouldFetchUsers: PropTypes.func.isRequired,
+};
 
 export default NewUserForm;
