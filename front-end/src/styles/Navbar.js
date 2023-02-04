@@ -9,8 +9,9 @@ export const Header = styled.header`
   justify-content: space-around;
   align-items: center;
   position: fixed;
-  width: 100%;
   top: 0;
+  left: 0;
+  right: 0;
 `;
 
 export const MenuButtonContainer = styled.div`

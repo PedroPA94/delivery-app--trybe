@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { requestPost } from '../services/request';
-import { AdmContainer, AdmForm, Select } from '../styles/AdmStyles';
+import { AdmForm, Select } from '../styles/AdmStyles';
 import { Button, Input } from '../styles/GlobalStyles';
 
 const MIN_NAME_LENGTH = 12;
@@ -33,17 +33,16 @@ function NewUserForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await requestPost('/register/admin', newUser);
+      await requestPost('/admin', newUser);
     } catch (error) {
       console.error(error);
-      setShowErrorMessage(true);
       toast.error('Usuário já existe');
     }
     setNewUser(NEW_USER_MODEL);
   };
 
   return (
-    <AdmContainer>
+    <>
       <h2>Cadastrar novo usuário</h2>
       <AdmForm>
         <Input
@@ -90,13 +89,7 @@ function NewUserForm() {
           CADASTRAR
         </Button>
       </AdmForm>
-      {/* <p
-        data-testid="admin_manage__element-invalid-register"
-        hidden={ !showErrorMessage }
-      >
-        *Usuário já existe
-      </p> */}
-    </AdmContainer>
+    </>
   );
 }
 
