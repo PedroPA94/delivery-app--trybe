@@ -14,13 +14,13 @@ const getSellers = async (_req, res) => {
 const getUsers = async (_req, res) => {
   const users = await userService.getUsers();
   return res.status(200).json(users);
-}
+};
 
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   await userService.deleteUser(id);
   return res.status(201).end();
-}
+};
 
 module.exports = {
   createUser,

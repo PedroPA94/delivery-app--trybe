@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { requestDelete, requestGet, setToken } from '../services/request';
 import GenericTable from './GenericTable';
 import Loading from './Loading';
 
-function UsersTable() {
+function UsersTable({ shouldFetchUsers, setShouldFetchUsers }) {
   const [users, setUsers] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [adminData] = useLocalStorage('user');
@@ -19,10 +20,14 @@ function UsersTable() {
       console.log(error);
     }
   };
+
   useEffect(() => {
-    getUsers();
-    setToken(adminData.token);
-  }, []);
+    if (shouldFetchUsers) {
+      getUsers();
+      setToken(adminData.token);
+      setShouldFetchUsers(false);
+    }
+  }, [shouldFetchUsers]);
 
   const handleRemoveUser = async (user) => {
     await requestDelete(`/admin/${user.id}`);
@@ -43,5 +48,10 @@ function UsersTable() {
     </>
   );
 }
+
+UsersTable.propTypes = {
+  shouldFetchUsers: PropTypes.bool.isRequired,
+  setShouldFetchUsers: PropTypes.func.isRequired,
+};
 
 export default UsersTable;

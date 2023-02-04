@@ -41,12 +41,12 @@ const getSellers = async () => {
 
 const getUsers = async () => User.findAll({ 
   where: { 
-    role: { [Op.not]: 'administrator' }
+    role: { [Op.not]: 'administrator' },
   },
-  attributes: { exclude: ['password'] }
-})
+  attributes: { exclude: ['password'] },
+});
 
-const deleteUser = async (id) => User.destroy({ where: { id }})
+const deleteUser = async (id) => User.destroy({ where: { id } });
 
 module.exports = {
   create,

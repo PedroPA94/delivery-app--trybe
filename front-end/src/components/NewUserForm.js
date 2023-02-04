@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import PropTypes from 'prop-types';
 import { requestPost } from '../services/request';
 import { AdmForm, Select } from '../styles/AdmStyles';
 import { Button, Input } from '../styles/GlobalStyles';
@@ -13,7 +14,7 @@ const NEW_USER_MODEL = {
   role: 'seller',
 };
 
-function NewUserForm() {
+function NewUserForm({ setShouldFetchUsers }) {
   const [newUser, setNewUser] = useState(NEW_USER_MODEL);
 
   const handleChange = (target) => {
@@ -34,6 +35,7 @@ function NewUserForm() {
     event.preventDefault();
     try {
       await requestPost('/admin', newUser);
+      setShouldFetchUsers(true);
     } catch (error) {
       console.error(error);
       toast.error('Usuário já existe');
@@ -92,5 +94,9 @@ function NewUserForm() {
     </>
   );
 }
+
+NewUserForm.propTypes = {
+  setShouldFetchUsers: PropTypes.func.isRequired,
+};
 
 export default NewUserForm;
