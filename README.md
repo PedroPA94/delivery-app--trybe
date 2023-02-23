@@ -2,7 +2,7 @@
 
 <div align='center'>
 
-![ezgif com-gif-maker](https://user-images.githubusercontent.com/75266925/194889837-08362920-12f6-4e28-b107-f2487ea5c852.gif)
+![ezgif com-video-to-gif](https://user-images.githubusercontent.com/75266925/220914025-93b0c950-54e4-4527-a6e6-350aed6481e3.gif)
 
 </div>
 
@@ -64,3 +64,5 @@ The team: [@albertassihatus](https://github.com/albertassihatus), [@Camila-Falas
 - Run the tests we made with ```npm test``` or ```npm test <test name>```, either on the back-end or front-end folders
 - Check test coverage with `npm run test:coverage` on the back-end or front-end folders
 - Run the project's requirements tests with ```npm test``` or ```npm run test <test-name>``` on the root folder (might not show 100% approval as we made changes after finishing it)
+
+To use the app, register a new buyer account. The admin user is `adm@deliveryapp.com`, password `--adm2@21!!--`. To login as a seller, use `fulana@deliveryapp.com`, password `fulana@123`, or create a new one as an admin.
